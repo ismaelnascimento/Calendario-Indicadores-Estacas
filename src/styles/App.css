@@ -1,0 +1,89 @@
+.calendario {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 40px;
+}
+
+.calendario > p {
+  font-size: 30px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--color-text);
+}
+
+.calendario > button {
+  position: fixed;
+  z-index: 999;
+  right: 12px;
+  bottom: 12px;
+  border-radius: 18px;
+  border: none;
+  outline: none;
+  padding: 13px 17px;
+  background-color: rgba(14, 57, 86, 1);
+  color: #fff;
+  font-size: 15.5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.calendario > button:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+.calendario--button-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.calendario--meses {
+  display: flex;
+  flex-direction: column;
+  margin: 30px;
+  width: 80%;
+}
+
+@media (max-width: 1200px) {
+  .calendario {
+    padding: 20px;
+  }
+  .calendario > p {
+    font-size: 25px;
+  }
+  .calendario--meses {
+    margin: 20px;
+    width: 95%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .calendario {
+    padding: 20px;
+  }
+  .calendario > p {
+    font-size: 25px;
+  }
+  .calendario--meses {
+    margin: 15px 10px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 415px) {
+  .calendario {
+    padding: 20px 10px;
+  }
+  .calendario > p {
+    font-size: 21px;
+  }
+  .calendario--meses {
+    margin: 13px 10px;
+  }
+}
+
+.calendario {
+  padding-bottom: 60px;
+}

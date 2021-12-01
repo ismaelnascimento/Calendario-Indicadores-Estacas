@@ -1,0 +1,356 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.2s ease;
+}
+
+html {
+  background-color: rgba(229, 231, 232, 1);
+  --color-text: rgb(56, 57, 63);
+}
+
+.calendario--modal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(23, 25, 39, 0.267);
+}
+
+.calendario--alterar__evento {
+  position: absolute;
+  width: 500px;
+  border-radius: 15px;
+  background-color: rgba(229, 231, 232, 0.89);
+  border: 1px solid rgba(255, 255, 255, 0.877);
+  backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 550px) {
+  .calendario--alterar__evento {
+    width: 100%;
+  }
+}
+
+.calendario--alterar__evento > button {
+  background-color: rgba(14, 57, 86, 1);
+  color: #000;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  width: 96%;
+  margin: 13px auto;
+  outline: none;
+  text-transform: uppercase;
+  height: 50px;
+  font-size: 16.5px;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.calendario--alterar__evento > button:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+.calendario--alterar__evento > button:disabled {
+  background-color: rgb(255, 255, 255);
+  color: #000;
+  opacity: 0.4;
+  cursor: auto;
+}
+
+.calendario--alterar__evento--header {
+  display: flex;
+  padding: 13px;
+  height: 60px;
+  width: 100%;
+  align-items: center;
+  color: var(--color-text);
+}
+
+.calendario--alterar__evento--header > p {
+  font-size: 17px;
+  margin-left: 9px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.calendario--alterar__evento--header > svg {
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.calendario--alterar__evento--header > svg:hover {
+  opacity: 0.6;
+}
+
+.calendario--alterar__evento--content {
+  padding: 13px;
+  padding-top: 0;
+  overflow: auto;
+  height: 360px;
+  width: 100%;
+}
+
+.calendario--alterar__evento--content input {
+  width: 100%;
+  border-radius: 12px;
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  border: none;
+  outline: none;
+  background-color: #fff;
+  border: 1px solid #fff;
+  transition: all 0.3s ease;
+}
+
+.calendario--alterar__evento--content input:focus {
+  background-color: rgb(238, 240, 243);
+}
+
+.calendario--alterar__evento--content > section {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.calendario--alterar__evento--content > section > p {
+  font-size: 17px;
+  color: var(--color-text);
+  font-weight: 500;
+  margin: 0 13px;
+}
+
+.calendario--alterar__evento--content select {
+  width: 100px;
+  border-radius: 12px;
+  padding: 12px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  border: none;
+  outline: none;
+  background-color: #fff;
+  border: 1px solid #fff;
+  transition: all 0.3s ease;
+}
+
+.calendario--alterar__evento--content select:focus {
+  background-color: rgb(238, 240, 243);
+}
+
+.calendario--alterar__evento--content__link-add {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.calendario--alterar__evento--content__link-add > p {
+  font-weight: 500;
+  margin: 0px 0;
+  margin-top: 10px;
+  text-transform: uppercase;
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.calendario--alterar__evento--content__link-add > input {
+  margin-top: 10px;
+}
+
+.calendario--alterar__evento--content__link-add > button {
+  background-color: rgba(14, 57, 86, 1);
+  color: #000;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  width: auto;
+  padding: 0 15px;
+  margin: 13px auto;
+  outline: none;
+  height: 43px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.calendario--alterar__evento--content__link-add > button > svg {
+  font-size: 22px !important;
+  margin-right: 10px;
+}
+
+.calendario--alterar__evento--content__link-add > button:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+.calendario--alterar__evento--content__link-add > button:disabled {
+  opacity: 0.4;
+  cursor: auto;
+}
+
+.calendario--alterar__evento--content__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.calendario--alterar__evento--content__links > div {
+  flex: 1;
+  margin: 5px 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 9px;
+  position: relative;
+  width: 100%;
+  background-color: #fff;
+}
+
+.calendario--alterar__evento--content__links > div > p {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.calendario--alterar__evento--content__links > div > p img {
+  margin-right: 10px;
+}
+
+.calendario--alterar__evento--content__links > div > a {
+  color: rgba(14, 57, 86, 1);
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.calendario--alterar__evento--content__links > div > button {
+  background-color: rgba(14, 57, 86, 1);
+  transition: all 0.3s ease;
+  width: 34px;
+  outline: none;
+  height: 34px;
+  font-size: 17px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border-radius: 100%;
+  color: #fff;
+}
+
+.calendario--alterar__evento--content__links > div > button:hover {
+  opacity: 0.6;
+}
+
+/* select */
+
+.calendario--alterar__evento--content-select {
+  width: 100%;
+  border-radius: 12px;
+  padding: 11px;
+  font-weight: 500;
+  color: var(--color-text);
+  border: none;
+  outline: none;
+  background-color: #fff;
+  border: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  margin-top: 11px;
+  cursor: pointer;
+}
+
+.calendario--alterar__evento--content-select-itens {
+  width: 100%;
+  border-radius: 12px;
+  height: 389px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-weight: 500;
+  color: var(--color-text);
+  border: none;
+  outline: none;
+  background-color: #fff;
+  border: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  transition: all 0.3s ease;
+}
+
+.calendario--alterar__evento--content-select-itens > div {
+  padding: 12px;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #f2f2f2;
+}
+
+.calendario--alterar__evento--content-select-itens > div:hover {
+  background-color: rgb(238, 240, 243);
+}
+
+.calendario--alterar__evento--content-select-itens > div > div {
+  width: 38px;
+  height: 9px;
+  border-radius: 15px;
+  margin-right: 9px;
+}
+
+.calendario--alterar__evento--content-select-itens > div > p {
+  font-size: 15px;
+  font-weight: 500;
+  color: rgb(87, 89, 100);
+}
+
+.calendario--alterar__evento--content-select > svg {
+  font-size: 19px;
+  margin-right: 8px;
+  color: var(--color-text);
+}
+
+.calendario--alterar__evento--content-select > p {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.calendario--alterar__evento--content-select:focus {
+  background-color: rgb(238, 240, 243);
+}
+
+.calendario--alterar__evento--content-select:hover {
+  background-color: rgb(238, 240, 243);
+}

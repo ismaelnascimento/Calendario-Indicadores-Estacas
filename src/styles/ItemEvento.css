@@ -1,0 +1,65 @@
+.calendario__mes-eventos--item {
+  flex: 1;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 7px;
+  margin: 5px 0;
+  margin-right: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendario__mes-eventos--item > p {
+  font-size: 13px;
+  font-weight: 400;
+  color: rgb(106, 110, 121);
+  display: flex;
+  align-items: center;
+}
+
+.calendario__mes-eventos--item > p > div {
+  padding: 6px 12px;
+  border-radius: 10px;
+  margin-left: 12px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+  min-width: 85px;
+}
+
+.calendario__mes-eventos--item > h5 {
+  font-size: 16px;
+  margin: 11px 0;
+  font-weight: 600;
+  color: rgb(32, 33, 36);
+}
+
+.calendario__mes-eventos--item > section {
+  display: flex;
+  align-items: center;
+}
+
+.calendario__mes-eventos--item > section > button {
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  padding: 11px 13px;
+  background-color: rgba(14, 57, 86, 1);
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  margin-right: 15px;
+}
+
+.calendario__mes-eventos--item > section > button:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+.calendario__mes-eventos--item > section > button > svg {
+  font-size: 17px;
+  margin-right: 10px;
+}

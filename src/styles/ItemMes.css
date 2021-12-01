@@ -1,0 +1,83 @@
+.calendario__mes {
+  margin: 10px;
+  width: 100%;
+}
+
+.calendario__mes > p {
+  font-size: 22px;
+  font-weight: 500;
+  color: rgba(33, 33, 33, 1);
+}
+
+.calendario__mes-eventos {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 10px 0;
+  margin-top: 15px;
+}
+
+.calendario__mes-eventos-not {
+  font-weight: 300;
+  color: rgb(55, 56, 65);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.calendario__mes-eventos-not > svg {
+  font-size: 15px;
+  margin-right: 5px;
+}
+
+@media (max-width: 880px) {
+  .calendario__mes-eventos {
+    flex-direction: column;
+    margin: 10px 0;
+    margin-top: 10px;
+  }
+  .calendario__mes-eventos--item {
+    flex: 1 1;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 8px 0;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  .calendario__mes-eventos--item > section > button {
+    padding: 11px 13px;
+  }
+}
+
+@media (max-width: 415px) {
+  .calendario__mes-eventos--item > section > button {
+    padding: 10px 12px;
+    margin-right: 8px;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .calendario__mes-eventos--item {
+    flex: 1 1;
+    background-color: #fff;
+    padding: 13px;
+    border-radius: 15px;
+    margin: 8px 0;
+    margin-right: 15px;
+    display: flex;
+    flex-direction: column;
+  }
+  .calendario__mes-eventos--item > p {
+    font-size: 12px;
+  }
+  .calendario__mes-eventos--item > h5 {
+    font-size: 15px;
+  }
+  .calendario__mes {
+    margin: 8px;
+    width: 100%;
+  }
+  .calendario__mes > p {
+    font-size: 18px;
+  }
+}
