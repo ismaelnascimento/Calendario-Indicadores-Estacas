@@ -1,5 +1,6 @@
 .calendario__mes-eventos--item {
   flex: 1;
+  min-width: 330px;
   background-color: #fff;
   padding: 15px;
   border-radius: 7px;

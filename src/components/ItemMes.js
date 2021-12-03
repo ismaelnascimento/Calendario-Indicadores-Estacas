@@ -30,13 +30,17 @@ function ItemMes(props) {
 
   // -- FILTER --
   const eventos = useMemo(() => {
-    return eventosget.filter((evento) => {
-      var mesItem = itemmes.toLowerCase();
-      var mesEvento = evento.mes.toLowerCase();
+    if (itemmes === "Todos") {
+      return eventosget;
+    } else {
+      return eventosget.filter((evento) => {
+        var mesItem = itemmes.toLowerCase();
+        var mesEvento = evento.mes.toLowerCase();
 
-      return mesItem === mesEvento;
-    });
-  }, [eventosget]);
+        return mesItem === mesEvento;
+      });
+    }
+  }, [eventosget, itemmes]);
 
   //
 

@@ -1,15 +1,84 @@
-.calendario {
+.calendario--banner {
+  background-color: #fff;
+  width: 100%;
+  height: 330px;
   display: flex;
   align-items: center;
-  flex-direction: column;
-  padding: 40px;
+  justify-content: center;
+  background-size: cover;
+  background-position: center center;
+  background-image: url(https://lh6.googleusercontent.com/eUvTcWJEBX94ZmlBeeBhqk-slT4nu4t-r5lZn4iEQfy9M0iFcNRuXK1NlzY7_FqxAZl4DrApwNlHsoIsQUCTlWk=w16383);
 }
 
-.calendario > p {
+.calendario--banner > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 1;
+  background: rgba(25, 25, 29, 0.445);
+}
+
+.calendario--banner > div svg {
+  width: 31px;
+  height: 31px;
+  cursor: pointer;
+  position: fixed;
+  top: 11px;
+  left: 11px;
+}
+
+.calendario--banner > div svg:hover {
+  opacity: 0.7;
+}
+
+.calendario--banner > div svg path {
+  stroke: #fff;
+}
+
+.calendario--banner > div p {
   font-size: 30px;
   font-weight: 600;
   text-align: center;
-  color: var(--color-text);
+  color: #fff;
+}
+
+.calendario {
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  align-items: center;
+  position: relative;
+  top: -20px;
+  z-index: 999;
+  flex-direction: column;
+  padding: 40px;
+  background-color: rgb(229, 231, 232);
+}
+
+.calendario--filter {
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  margin: 0 12px;
+}
+
+.calendario--filter > button {
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  padding: 11px 17px;
+  background-color: rgba(14, 57, 86, 1);
+  color: #fff;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  margin-right: 12px;
+  cursor: pointer;
+  font-weight: 500;
 }
 
 .calendario > button {
@@ -20,7 +89,8 @@
   border-radius: 18px;
   border: none;
   outline: none;
-  padding: 13px 17px;
+  padding: 12px 15px;
+  box-shadow: 0 0 25px 5px rgba(120, 120, 122, 0.486);
   background-color: rgba(14, 57, 86, 1);
   color: #fff;
   font-size: 15.5px;
@@ -76,14 +146,64 @@
   .calendario {
     padding: 20px 10px;
   }
-  .calendario > p {
-    font-size: 21px;
-  }
   .calendario--meses {
     margin: 13px 10px;
+  }
+  .calendario--banner > div p {
+    font-size: 19px;
+    margin: 20px;
   }
 }
 
 .calendario {
-  padding-bottom: 60px;
+  padding-bottom: 0px;
+  margin-bottom: 0;
+}
+
+/* footer */
+
+.footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin-bottom: 100px;
+}
+
+.footer > p {
+  display: flex;
+  align-items: center;
+  color: rgb(93, 93, 99);
+  font-size: 15px;
+}
+
+.footer a {
+  color: rgba(14, 57, 86, 1);
+  margin: 0 5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.footer a:hover {
+  opacity: 0.6;
+}
+
+.footer a:active {
+  transform: scale(0.97);
+}
+
+.footer a > svg {
+  font-size: 20px;
+}
+
+.footer > div {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.footer > div > div {
+  width: 2px;
+  height: 20px;
+  margin: 0 5px;
+  background: rgba(14, 57, 86, 1);
 }
