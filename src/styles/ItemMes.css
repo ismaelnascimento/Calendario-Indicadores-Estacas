@@ -21,6 +21,7 @@
   color: rgb(55, 56, 65);
   font-size: 14px;
   display: flex;
+  margin-right: 12px;
   align-items: center;
 }
 
@@ -51,6 +52,9 @@
 }
 
 @media (max-width: 415px) {
+  .calendario__mes-eventos-not {
+    font-size: 12px;
+  }
   .calendario__mes-eventos--item > section > button {
     padding: 10px 12px;
     margin-right: 8px;

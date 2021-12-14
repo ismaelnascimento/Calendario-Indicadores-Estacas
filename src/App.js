@@ -3,14 +3,17 @@ import ItemMes from "./components/ItemMes";
 import { auth, db, firebase, providerGoogle } from "./services/Firebase";
 import "./styles/App.css";
 import { CgClose } from "react-icons/cg";
+import { FiEdit2 } from "react-icons/fi";
 import { VscAdd } from "react-icons/vsc";
 import { BiLogOut } from "react-icons/bi";
 import { HiOutlineUser } from "react-icons/hi";
 import { useStateValue } from "./providers/StateProvider";
 import { actionTypes } from "./providers/reducer";
-import { BsTrash } from "react-icons/bs";
+import { BsCheck2, BsTrash } from "react-icons/bs";
 import { TiArrowSortedDown } from "react-icons/ti";
 import Footer from "./components/footer";
+import { SiFacebook, SiTwitter, SiWhatsapp } from "react-icons/si";
+import ItemUnidade from "./components/ItemUnidade";
 
 function App() {
   const [top, setTop] = useState(false);
@@ -134,6 +137,37 @@ function App() {
     }
   };
 
+  const [unidades, setUnidades] = useState([]);
+
+  useEffect(() => {
+    db.collection("unidades").onSnapshot((snapshot) => {
+      setUnidades(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    });
+  }, []);
+
+  const [selectUnidade, setSelectUnidade] = useState({
+    nome: "Estaca Pacajus",
+    email: "estacapacajussiao@gmail.com",
+  });
+  const [modalUnidades, setModalUnidades] = useState(false);
+
+  const getUnidadeInEmail = () => {
+    return unidades.filter((uni) => {
+      return uni.email === user?.email;
+    });
+  };
+
+  const isAdmin = () => {
+    if (user?.email === selectUnidade.email) {
+      var filter = unidades.filter((uni) => {
+        return uni.email === user?.email;
+      });
+      return filter.length > 0;
+    } else {
+      return false;
+    }
+  };
+
   // -- ADD EVENTO --
   const addEvento = (e) => {
     e.preventDefault();
@@ -144,6 +178,7 @@ function App() {
       nome: INPUTnomeEvento,
       links: INPUTlinksEvento,
       selectOrgazinacao: selectOrgazinacao,
+      unidade: getUnidadeInEmail()[0],
     };
 
     db.collection("calendario")
@@ -207,6 +242,52 @@ function App() {
     }
   }, [activeMes, meses, mesesTODOS]);
 
+  const [modalShare, setModalShare] = useState(false);
+
+  const COPY = (text) => {
+    if (document.queryCommandSupported("copy")) {
+      var textField = document.createElement("textarea");
+      textField.innerText = text;
+      document.body.appendChild(textField);
+      textField.select();
+      document.execCommand("copy");
+      textField.remove();
+
+      alert("Link Copiado...");
+    }
+  };
+
+  const textoCompartilhar = `Calendário anual da Estaca Pacajus Brasil 2022 ${encodeURIComponent(
+    document.URL
+  )}`;
+
+  const [modalAddUnidade, setModalAddUnidade] = useState(false);
+
+  const [INPUTnomeUnidade, setINPUTnomeUnidade] = useState("");
+  const [INPUTemailUnidade, setINPUTemailUnidade] = useState("");
+
+  // -- ADD UNIDADE --
+  const addUnidade = (e) => {
+    e.preventDefault();
+
+    const objUnidade = {
+      nome: INPUTnomeUnidade,
+      email: INPUTemailUnidade,
+    };
+
+    db.collection("unidades").add(objUnidade);
+
+    setINPUTnomeUnidade("");
+    setINPUTemailUnidade("");
+    setModalAddUnidade(!modalAddUnidade);
+  };
+
+  const removeUnidade = (uni) => {
+    if (window.confirm(`Quer mesmo deletar a unidade ${uni.nome}?`)) {
+      db.collection("unidades").doc(uni.id).delete();
+    }
+  };
+
   return (
     <>
       <div className="calendario--banner">
@@ -232,10 +313,138 @@ function App() {
           </svg>
 
           <p>CALENDÁRIO ANUAL DA ESTACA PACAJUS BRASIL 2022</p>
+          <a onClick={() => setModalShare(!modalShare)}>
+            <svg
+              stroke="currentColor"
+              fill="currentColor"
+              stroke-width="0"
+              viewBox="0 0 16 16"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path>
+            </svg>
+            Compartilhar calendário
+          </a>
+          <h6>
+            TODAS as atividades da Estaca devem focar no plano para a Área
+            Brasil - COLIGAR ISRAEL EM AMBOS OS LADOS DO VÉU - [Batismo de
+            Conversos] + [Retenção de Conversos] + [Missionários Brasileiros
+            Servindo] + [Templo como centro de adoração]
+          </h6>
+
+          <div
+            onClick={() => setModalUnidades(!modalUnidades)}
+            className="calendario--banner__unidade-select"
+          >
+            <TiArrowSortedDown
+              style={{
+                transform: modalUnidades ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+            />
+            <p>{selectUnidade?.nome !== null ? selectUnidade?.nome : ""}</p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        style={{
+          opacity: modalShare ? 5 : 0,
+          visibility: modalShare ? "visible" : "hidden",
+        }}
+        className="calendario--modal"
+      >
+        <div
+          style={{ transform: modalShare ? "scale(1)" : "scale(0)" }}
+          className="calendario--alterar__evento"
+        >
+          <div className="calendario--alterar__evento--header">
+            <CgClose onClick={() => setModalShare(!modalShare)} />
+
+            <p>Compartilhar calendário com:</p>
+          </div>
+
+          <div className="calendario--alterar__evento--content calendario--alterar__evento--content__share">
+            <SiWhatsapp
+              onClick={() =>
+                window.open(
+                  `https://api.whatsapp.com/send?text=${textoCompartilhar}`
+                )
+              }
+            />
+            <SiFacebook
+              onClick={() =>
+                window.open(
+                  `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                    document.URL
+                  )}`
+                )
+              }
+            />
+            <SiTwitter
+              onClick={() =>
+                window.open(
+                  `https://twitter.com/intent/tweet?text=${textoCompartilhar}`
+                )
+              }
+            />
+
+            <article>
+              <svg
+                onClick={() => COPY(window.location.href)}
+                stroke="currentColor"
+                fill="currentColor"
+                stroke-width="0"
+                viewBox="0 0 16 16"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M4 4l1-1h5.414L14 6.586V14l-1 1H5l-1-1V4zm9 3l-3-3H5v10h8V7z"
+                ></path>
+                <path
+                  fill-rule="evenodd"
+                  clip-rule="evenodd"
+                  d="M3 1L2 2v10l1 1V2h6.414l-1-1H3z"
+                ></path>
+              </svg>
+              <p onClick={() => COPY(window.location.href)}>
+                Copiar link do calendário..
+              </p>
+            </article>
+          </div>
         </div>
       </div>
 
       <div className="calendario">
+        <div
+          style={{
+            opacity: modalUnidades ? 5 : 0,
+            visibility: modalUnidades ? "visible" : "hidden",
+            height: modalUnidades ? "" : 0,
+          }}
+          className="calendario--banner__unidade-select--itens"
+        >
+          {unidades.map((item) => (
+            <div
+              style={{
+                background:
+                  selectUnidade.nome === item.nome ? "rgb(238, 240, 243)" : "",
+              }}
+              onClick={() => {
+                setSelectUnidade(item);
+                setModalUnidades(false);
+              }}
+            >
+              <p>{item.nome}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="calendario--filter">
           {meses.map((mes) => (
             <button
@@ -254,6 +463,7 @@ function App() {
           {mesesFilter.map((mes) => (
             <ItemMes
               mes={mes}
+              selectUnidade={selectUnidade}
               user={user}
               emailESTACAPACAJUS={emailESTACAPACAJUS}
             />
@@ -286,7 +496,7 @@ function App() {
 
         <button
           style={{
-            bottom: top ? (user ? 65 : 12) : -70,
+            bottom: top ? (isAdmin() ? 65 : 12) : -70,
             height: "fit-content",
             padding: "10px",
             borderRadius: "100%",
@@ -319,17 +529,80 @@ function App() {
           </svg>
         </button>
 
-        {user?.email === emailESTACAPACAJUS ? (
+        {isAdmin() ? (
           <button onClick={() => setModalAddEvento(!modalAddEvento)}>
-            <VscAdd
-              style={{ transform: modalAddEvento ? "rotate(45deg)" : "" }}
-              className="calendario--button-icon"
-            />{" "}
             Adicionar evento
           </button>
         ) : (
           ""
         )}
+
+        {user?.email === emailESTACAPACAJUS ? (
+          <button
+            style={{ left: 12, right: "inital" }}
+            onClick={() => setModalAddUnidade(!modalAddUnidade)}
+          >
+            <VscAdd
+              style={{
+                transform: modalAddEvento ? "rotate(45deg)" : "",
+              }}
+              className="calendario--button-icon"
+            />
+            Unidade
+          </button>
+        ) : (
+          ""
+        )}
+
+        <div
+          style={{
+            opacity: modalAddUnidade ? 5 : 0,
+            visibility: modalAddUnidade ? "visible" : "hidden",
+          }}
+          className="calendario--modal"
+        >
+          <div
+            style={{ transform: modalAddUnidade ? "scale(1)" : "scale(0)" }}
+            className="calendario--alterar__evento"
+          >
+            <div className="calendario--alterar__evento--header">
+              <CgClose onClick={() => setModalAddUnidade(!modalAddUnidade)} />
+
+              <p>Adicionar unidade</p>
+            </div>
+
+            <div className="calendario--alterar__evento--content">
+              <input
+                placeholder="Nome da unidade"
+                value={INPUTnomeUnidade}
+                onChange={(e) => setINPUTnomeUnidade(e.target.value)}
+              />
+
+              <input
+                style={{ marginTop: "10px" }}
+                placeholder="Email da unidade"
+                value={INPUTemailUnidade}
+                onChange={(e) => setINPUTemailUnidade(e.target.value)}
+              />
+
+              <div className="calendario--alterar__evento--content__link-add">
+                <p>Unidades</p>
+              </div>
+
+              <div className="calendario--alterar__evento--content__links">
+                {unidades.map((uni) => (
+                  <ItemUnidade uni={uni} removeUnidade={removeUnidade} />
+                ))}
+              </div>
+            </div>
+
+            {INPUTnomeUnidade !== "" && INPUTemailUnidade !== "" ? (
+              <button onClick={(e) => addUnidade(e)}>Adicionar unidade</button>
+            ) : (
+              <button disabled={true}>Adicionar unidade</button>
+            )}
+          </div>
+        </div>
 
         <div
           style={{
@@ -451,7 +724,9 @@ function App() {
                       />
                       {link.nome}
                     </p>
-                    <a href={`${link.link}`}>{link.link}</a>
+                    <a rel="noreferrer" target="_blank" href={`${link.link}`}>
+                      {link.link}
+                    </a>
                     <button onClick={() => removeLink(link.link)}>
                       <BsTrash />
                     </button>

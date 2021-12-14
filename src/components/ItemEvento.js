@@ -72,6 +72,7 @@ function ItemEvento(props) {
     },
   ]);
   const [modalSelect, setModalSelect] = useState(false);
+  const [selectUnidade, setSelectUnidade] = useState({});
 
   useEffect(() => {
     setINPUTmesEvento(props.evento.mes);
@@ -79,6 +80,7 @@ function ItemEvento(props) {
     setINPUTdiaEvento(props.evento.dia);
     setINPUTlinksEvento(props.evento?.links ? props.evento?.links : []);
     setSelectOrgazinacao(props.evento?.selectOrgazinacao);
+    setSelectUnidade(props.evento?.unidade ? props.evento?.unidade : {});
   }, [props.evento]);
 
   // -link-
@@ -121,6 +123,7 @@ function ItemEvento(props) {
       nome: INPUTnomeEvento,
       links: INPUTlinksEvento,
       selectOrgazinacao: selectOrgazinacao,
+      unidade: selectUnidade,
     };
 
     db.collection("calendario")
@@ -152,6 +155,15 @@ function ItemEvento(props) {
 
   return (
     <div className="calendario__mes-eventos--item">
+      {selectUnidade !== {} ? (
+        <h6>
+          {selectUnidade?.email === "estacapacajussiao@gmail.com"
+            ? "Nível Estaca"
+            : "Nível Ala"}
+        </h6>
+      ) : (
+        ""
+      )}
       <p>
         {props.evento.dia} de {props.evento.mes}
         {props.evento?.selectOrgazinacao ? (
@@ -181,14 +193,25 @@ function ItemEvento(props) {
       {INPUTlinksEvento?.length !== 0 ? (
         <div className="calendario--alterar__evento--content__links">
           {INPUTlinksEvento?.map((link) => (
-            <div style={{ margin: 0, marginBottom: "15px", padding: 0 }}>
+            <div
+              style={{
+                margin: 0,
+                marginBottom:
+                  props.user?.email === props.emailESTACAPACAJUS
+                    ? "15px"
+                    : "5px",
+                padding: 0,
+              }}
+            >
               <p>
                 <img
                   src={`https://s2.googleusercontent.com/s2/favicons?domain_url=${link?.link}`}
                 />
                 {link?.nome}
               </p>
-              <a href={`${link?.link}`}>{link?.link}</a>
+              <a rel="noreferrer" target="_blank" href={`${link?.link}`}>
+                {link?.link}
+              </a>
             </div>
           ))}
         </div>
@@ -329,7 +352,9 @@ function ItemEvento(props) {
                     />
                     {link.nome}
                   </p>
-                  <a href={`${link.link}`}>{link.link}</a>
+                  <a rel="noreferrer" target="_blank" href={`${link.link}`}>
+                    {link.link}
+                  </a>
                   <button onClick={() => removeLink(link.link)}>
                     <BsTrash />
                   </button>
@@ -346,9 +371,9 @@ function ItemEvento(props) {
             <button onClick={(e) => updateEvento(e, props.evento.id)}>
               Alterar
             </button>
-          ) : (
+           ) : (
             <button disabled={true}>Alterar</button>
-          )}
+          )} 
         </div>
       </div>
     </div>

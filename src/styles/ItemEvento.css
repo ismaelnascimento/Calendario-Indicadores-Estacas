@@ -10,6 +10,12 @@
   flex-direction: column;
 }
 
+.calendario__mes-eventos--item > h6 {
+  color: rgb(74, 77, 83);
+  letter-spacing: 1px;
+  font-size: 10px;
+}
+
 .calendario__mes-eventos--item > p {
   font-size: 13px;
   font-weight: 400;
