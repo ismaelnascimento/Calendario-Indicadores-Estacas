@@ -6,6 +6,8 @@ import { db } from "../services/Firebase";
 import "../styles/ItemEvento.css";
 import { VscAdd } from "react-icons/vsc";
 import { TiArrowSortedDown } from "react-icons/ti";
+import { SiFacebook, SiTwitter, SiWhatsapp } from "react-icons/si";
+import { useLocation } from "react-router-dom";
 
 function ItemEvento(props) {
   const meses = [
@@ -33,55 +35,19 @@ function ItemEvento(props) {
   //
 
   const [selectOrgazinacao, setSelectOrgazinacao] = useState(null);
-  const [organizacoes, setOrganizacoes] = useState([
-    {
-      color: "#000167",
-      organizacao: "Atividades mundiais",
-    },
-    {
-      color: "#42FF4F",
-      organizacao: "Atividades do templo e história da família",
-    },
-    {
-      color: "#48EB8B",
-      organizacao: "Atividades da Área Brasil",
-    },
-    {
-      color: "#FF895F",
-      organizacao: "Atividades da Presidência da Estaca.",
-    },
-    {
-      color: "#3F45EB",
-      organizacao: "Sociedade de socorro",
-    },
-    {
-      color: "#E8237D",
-      organizacao: "Moças",
-    },
-    {
-      color: "#EBCA49",
-      organizacao: "Primária",
-    },
-    {
-      color: "#EB5757",
-      organizacao: "Rapazes e Moças",
-    },
-    {
-      color: "#53EBFF",
-      organizacao: "Escola Dominical",
-    },
-  ]);
+  const [organizacoes, setOrganizacoes] = useState([]);
   const [modalSelect, setModalSelect] = useState(false);
   const [selectUnidade, setSelectUnidade] = useState({});
 
   useEffect(() => {
+    setOrganizacoes(props.organizacoes);
     setINPUTmesEvento(props.evento.mes);
     setINPUTnomeEvento(props.evento.nome);
     setINPUTdiaEvento(props.evento.dia);
     setINPUTlinksEvento(props.evento?.links ? props.evento?.links : []);
     setSelectOrgazinacao(props.evento?.selectOrgazinacao);
     setSelectUnidade(props.evento?.unidade ? props.evento?.unidade : {});
-  }, [props.evento]);
+  }, [props.evento, props.organizacoes]);
 
   // -link-
   const [INPUTlinksNOMEEvento, setINPUTlinksNOMEEvento] = useState("");
@@ -153,8 +119,42 @@ function ItemEvento(props) {
 
   const [viewOrganizacao, setViewOrganizacao] = useState(false);
 
+  var pularLinha = "%0A";
+  var textoPequeno = "```";
+
   return (
-    <div className="calendario__mes-eventos--item">
+    <div id={`${props.evento.id}`} className="calendario__mes-eventos--item">
+      <a
+        href={`#${props.evento.id}`}
+        onClick={() => {
+          window.open(
+            `https://api.whatsapp.com/send?text=${
+              selectUnidade?.email === "estacapacajussiao@gmail.com"
+                ? `${textoPequeno}Nível Estaca${textoPequeno}`
+                : `${textoPequeno}Nível Ala${textoPequeno}`
+            }${pularLinha}*${props.evento.dia} de ${props.evento.mes}* _(${
+              props.evento?.selectOrgazinacao?.organizacao
+            })_${pularLinha}${
+              props.evento.nome
+            }${pularLinha}${pularLinha}*Atividade do calendário anual da Estaca Pacajus Brasil 2022 https://calendarioestacapacajus.web.app/${
+              props.evento.id
+            }*`
+          );
+        }}
+      >
+        <svg
+          stroke="currentColor"
+          fill="currentColor"
+          stroke-width="0"
+          viewBox="0 0 16 16"
+          height="1em"
+          width="1em"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5zm-8.5 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm11 5.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path>
+        </svg>
+      </a>
+
       {selectUnidade !== {} ? (
         <h6>
           {selectUnidade?.email === "estacapacajussiao@gmail.com"
@@ -367,13 +367,14 @@ function ItemEvento(props) {
           INPUTdiaEvento !== props.evento.dia ||
           INPUTmesEvento !== props.evento.mes ||
           INPUTlinksEvento !== props.evento?.links ||
-          selectOrgazinacao?.organizacao !== props.evento?.selectOrgazinacao ? (
+          selectOrgazinacao?.organizacao !==
+            props.evento?.selectOrgazinacao?.organizacao ? (
             <button onClick={(e) => updateEvento(e, props.evento.id)}>
               Alterar
             </button>
-           ) : (
+          ) : (
             <button disabled={true}>Alterar</button>
-          )} 
+          )}
         </div>
       </div>
     </div>

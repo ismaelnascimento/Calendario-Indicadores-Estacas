@@ -1,0 +1,185 @@
+#gauge-chart4 {
+  width: 300px !important;
+}
+
+#gauge-chart4 text {
+  fill: rgb(40, 41, 43) !important;
+  font-size: 20px !important;
+  text-shadow: 2px 2px #ffffff;
+  font-weight: 500 !important;
+}
+
+.arc:nth-child(1) path {
+  fill: rgb(255, 0, 0) !important;
+}
+
+.arc:nth-child(3) path {
+  fill: rgb(0, 255, 0) !important;
+}
+
+.metas__content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: -20px;
+}
+
+.metas__unidade {
+  margin-bottom: 40px;
+  width: 95%;
+}
+
+.metas__unidade > p {
+  font-size: 22px;
+  font-weight: 700;
+  border-left: 3px solid rgba(14, 57, 86, 1);
+  padding-left: 12px;
+  color: rgba(14, 57, 86, 1);
+}
+
+.metas__unidade--charts {
+  display: flex;
+  margin-top: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.metas__unidade--charts > div {
+  display: flex;
+  flex-direction: column;
+  /* background-color: #fff; */
+  /* margin: 5px; */
+  flex: 1;
+  justify-content: center;
+  border-radius: 12px;
+  padding: 5px;
+}
+
+.metas__unidade--charts > div > section {
+  display: flex;
+  align-items: center;
+}
+
+.metas__unidade--charts > div > section > img {
+  width: 75px;
+  height: 75px;
+}
+
+.metas__unidade--charts > div > section > p {
+  margin-left: 20px;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: bold;
+  color: rgb(39, 41, 43);
+}
+
+.metas__unidade--charts > div > main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 8px;
+}
+
+.metas__unidade--charts > div > main > svg {
+  width: 32px;
+  height: 32px;
+  padding: 7px;
+  border-radius: 100%;
+  color: #fff;
+  display: flex;
+  margin: 0 12px;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+  background-color: rgba(14, 57, 86, 1);
+}
+
+.metas__unidade--charts > div input {
+  padding: 5px;
+  border-radius: 8px;
+  width: 38px;
+  height: 35px;
+  border: none;
+  outline: none;
+  text-align: center;
+  background-color: #fff;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: rgba(14, 57, 86, 1);
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  /* display: none; <- Crashes Chrome on hover */
+  -webkit-appearance: none;
+  margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.metas__unidade--charts > div > main > p {
+  font-size: 16px;
+  font-weight: 500;
+  color: rgba(14, 57, 86, 1);
+}
+
+.metas__unidade--charts > div > main > svg:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+@media (max-width: 700px) {
+  .metas__unidade > p {
+    font-size: 18px;
+    padding-left: 12px;
+  }
+  .metas__unidade--charts > div > section > img {
+    width: 60px;
+    height: 60px;
+  }
+  .metas__unidade--charts > div > section > p {
+    margin-left: 15px;
+    font-size: 15px;
+  }
+  #gauge-chart4 {
+    width: 250px !important;
+  }
+  .metas__unidade--charts > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1;
+    justify-content: center;
+    border-radius: 12px;
+    padding: 5px;
+  }
+  .metas__unidade {
+    width: 92%;
+  }
+}
+
+@media (max-width: 400px) {
+  .metas__unidade--charts > div {
+    flex: 1;
+    padding: 0px;
+    margin: 7px 0;
+  }
+  .metas__unidade--charts > div > section > p {
+    margin-left: 6px;
+    font-size: 10.5px;
+    width: 120px;
+  }
+  .metas__unidade--charts > div > section > img {
+    width: 32px;
+    height: 32px;
+  }
+  #gauge-chart4 {
+    width: 160px !important;
+  }
+  #gauge-chart4 text {
+    font-size: 16px !important;
+  }
+}

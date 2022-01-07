@@ -8,6 +8,7 @@
   margin-right: 15px;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .calendario__mes-eventos--item > h6 {
@@ -45,6 +46,28 @@
 .calendario__mes-eventos--item > section {
   display: flex;
   align-items: center;
+}
+
+.calendario__mes-eventos--item > a {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: fit-content;
+  height: fit-content;
+}
+
+.calendario__mes-eventos--item > a:hover {
+  opacity: 0.5;
+}
+
+.calendario__mes-eventos--item > a > svg {
+  color: rgba(14, 57, 86, 1);
+  width: 19px;
+  height: 19px;
 }
 
 .calendario__mes-eventos--item > section > button {

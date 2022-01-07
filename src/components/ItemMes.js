@@ -75,6 +75,7 @@ function ItemMes(props) {
                 user={props.user}
                 emailESTACAPACAJUS={evento.unidade.email}
                 evento={evento}
+                organizacoes={props.organizacoes}
               />
             ))
           ) : (
@@ -94,6 +95,7 @@ function ItemMes(props) {
               user={props.user}
               emailESTACAPACAJUS={evento.unidade.email}
               evento={evento}
+              organizacoes={props.organizacoes}
             />
           ))
         ) : (
