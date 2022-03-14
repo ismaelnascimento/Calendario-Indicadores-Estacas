@@ -3,6 +3,7 @@ import { db } from "../services/Firebase";
 import ItemEvento from "./ItemEvento";
 import "../styles/ItemMes.css";
 import { FiSearch } from "react-icons/fi";
+import { useStateValue } from "../providers/StateProvider";
 
 function ItemMes(props) {
   const [itemmes, setItemmes] = useState(props.mes);
@@ -18,15 +19,8 @@ function ItemMes(props) {
   const [eventosget, setEventosget] = useState([]);
 
   useEffect(() => {
-    db.collection("calendario")
-      .doc("anual")
-      .collection("eventos")
-      .onSnapshot((snapshot) => {
-        setEventosget(
-          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-        );
-      });
-  }, []);
+    setEventosget(props.eventos);
+  }, [props.eventos]);
 
   // -- FILTER --
   const eventos = useMemo(() => {
@@ -57,7 +51,7 @@ function ItemMes(props) {
       });
 
       return filter.filter((evento) => {
-        return evento.unidade.nome === props.selectUnidade.nome;
+        return evento.unidade.nome === props.selectUnidade?.nome;
       });
     }
   }, [eventosget, itemmes, props.selectUnidade]);
@@ -68,7 +62,7 @@ function ItemMes(props) {
       <p>{itemmes}</p>
 
       <div className="calendario__mes-eventos">
-        {props.selectUnidade.nome !== "Estaca Pacajus" ? (
+        {props.selectUnidade?.nome !== "Estaca Pacajus" ? (
           eventosUnidade?.length > 0 ? (
             eventosUnidade?.map((evento) => (
               <ItemEvento
@@ -81,7 +75,7 @@ function ItemMes(props) {
           ) : (
             <div className="calendario__mes-eventos-not">
               <FiSearch />
-              Não achei eventos da unidade {props.selectUnidade.nome} em{" "}
+              Não achei eventos da unidade {props.selectUnidade?.nome} em{" "}
               {itemmes}
             </div>
           )

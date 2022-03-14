@@ -38,6 +38,13 @@
   color: rgba(14, 57, 86, 1);
 }
 
+.metas__unidade > p > h5 {
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 1px;
+  font-weight: 400;
+}
+
 .metas__unidade--charts {
   display: flex;
   margin-top: 12px;

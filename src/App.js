@@ -2,18 +2,40 @@ import React, { useEffect, useState } from "react";
 import Calendario from "./Calendario";
 import Metas from "./Metas";
 
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { auth, db, firebase, providerGoogle } from "./services/Firebase";
 import { useStateValue } from "./providers/StateProvider";
 import { actionTypes } from "./providers/reducer";
+import Home from "./Home";
+import CalendarioApp from "./Apps/CalendarioApp";
+import MetasApp from "./Apps/MetasApp";
+import Estacas from "./Estacas";
 
 function App() {
   const [unidades, setUnidades] = useState([]);
+  const [notCadastro, setNotCadastro] = useState(true);
+  const [eventosget, setEventosget] = useState([]);
 
   useEffect(() => {
     db.collection("unidades").onSnapshot((snapshot) => {
       setUnidades(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     });
+  }, []);
+
+  useEffect(() => {
+    db.collection("calendario")
+      .doc("anual")
+      .collection("eventos")
+      .onSnapshot((snapshot) => {
+        setEventosget(
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
+      });
   }, []);
 
   const [{ user }, dispatch] = useStateValue();
@@ -36,12 +58,17 @@ function App() {
       .auth()
       .setPersistence(firebase.auth.Auth.Persistence.LOCAL)
       .then(() => {
-        auth.signInWithPopup(providerGoogle).catch((e) => {
-          var errorCode = e.code;
-          var errorMessage = e.message;
+        auth
+          .signInWithPopup(providerGoogle)
+          .catch((e) => {
+            var errorCode = e.code;
+            var errorMessage = e.message;
 
-          alert(errorMessage);
-        });
+            alert(errorMessage);
+          })
+          .then(() => {
+            setNotCadastro(true);
+          });
       })
       .catch((e) => {
         var errorCode = e.code;
@@ -49,6 +76,13 @@ function App() {
 
         alert(errorMessage);
       });
+  };
+
+  const getEstaca = () => {
+    var uni = unidades?.filter((uni) => {
+      return uni?.email === user?.email;
+    });
+    return uni[0];
   };
 
   return (
@@ -60,18 +94,50 @@ function App() {
               exact
               path="/"
               element={
-                <Calendario unidades={unidades} loginGoogle={loginGoogle} />
+                user && notCadastro && getEstaca() ? (
+                  <Navigate to={`/${getEstaca()?.estacaUID}`} />
+                ) : (
+                  <Home
+                    loginGoogle={loginGoogle}
+                    setNotCadastro={setNotCadastro}
+                  />
+                )
               }
             />
+            <Route path="/estacas" element={<Estacas unidades={unidades} />} />
             <Route
-              path="/:idEvento"
+              exact
+              path="/:estacaUID"
               element={
-                <Calendario unidades={unidades} loginGoogle={loginGoogle} />
+                <CalendarioApp
+                  getEstaca={getEstaca}
+                  unidades={unidades}
+                  eventos={eventosget}
+                  loginGoogle={loginGoogle}
+                />
               }
             />
             <Route
-              path="/metas"
-              element={<Metas unidades={unidades} loginGoogle={loginGoogle} />}
+              path="/:estacaUID/:idEvento"
+              element={
+                <CalendarioApp
+                  getEstaca={getEstaca}
+                  unidades={unidades}
+                  eventos={eventosget}
+                  loginGoogle={loginGoogle}
+                />
+              }
+            />
+            <Route
+              path="/:estacaUID/metas"
+              element={
+                <MetasApp
+                  getEstaca={getEstaca}
+                  unidades={unidades}
+                  eventos={eventosget}
+                  loginGoogle={loginGoogle}
+                />
+              }
             />
           </Routes>
         </div>

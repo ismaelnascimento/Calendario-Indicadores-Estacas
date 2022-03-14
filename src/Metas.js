@@ -4,7 +4,7 @@ import { auth, db } from "./services/Firebase";
 import "./styles/metas.css";
 
 import { TiArrowSortedDown } from "react-icons/ti";
-
+import { CgClose } from "react-icons/cg";
 import { AiOutlinePlus } from "react-icons/ai";
 import { MdRemove } from "react-icons/md";
 import iconBatismo from "./icons/iconBatismo.svg";
@@ -21,12 +21,20 @@ function Metas({ unidades, loginGoogle }) {
   const [selectUnidade, setSelectUnidade] = useState("Todos");
   const [modalUnidades, setModalUnidades] = useState(false);
 
-  const updateMeta = (idUni, alterar) => {
-    db.collection("unidades").doc(idUni).update(alterar);
+  const updateMeta = (idUni, alterar, thenn) => {
+    db.collection("unidades").doc(idUni).update(alterar)?.then(thenn);
+  };
+
+  const getUnidadeEstaca = () => {
+    var filter = unidades?.filter((uni) => {
+      return uni?.estaca === true;
+    });
+
+    return filter[0];
   };
 
   const isAdminEstaca = () => {
-    return user?.email === "estacapacajussiao@gmail.com";
+    return user?.email === getUnidadeEstaca()?.email;
   };
 
   const isAdmin = () => {
@@ -45,9 +53,9 @@ function Metas({ unidades, loginGoogle }) {
   const filterUnidade = useMemo(() => {
     if (selectUnidade === "Todos") {
       return unidades?.filter((uni) => {
-        return uni?.nome !== "Estaca Pacajus";
+        return uni?.nome !== getUnidadeEstaca()?.nome;
       });
-    } else if (selectUnidade?.nome === "Estaca Pacajus") {
+    } else if (selectUnidade?.nome === getUnidadeEstaca()?.nome) {
       return [];
     } else {
       return unidades?.filter((uni) => {
@@ -65,7 +73,10 @@ function Metas({ unidades, loginGoogle }) {
     };
 
     unidades.map((uni) => {
-      if (uni?.nome !== "Grupo Icapuí") {
+      if (
+        uni?.nome !== "Grupo Icapuí" &&
+        uni?.nome !== getUnidadeEstaca()?.nome
+      ) {
         infos.batismoConversos += parseFloat(
           uni?.metasConcluidas?.batismoConversos
         );
@@ -84,16 +95,105 @@ function Metas({ unidades, loginGoogle }) {
 
   const filterEstaca = useMemo(() => {
     return unidades?.filter((uni) => {
-      return uni?.nome === "Estaca Pacajus";
+      return uni?.nome === getUnidadeEstaca()?.nome;
     });
   }, [unidades]);
 
+  const [selectUnidadeMeta, setSelectUnidadeMeta] = useState(null);
+
+  const [newMetaUnidade1, setNewMetaUnidade1] = useState(0);
+  const [newMetaUnidade2, setNewMetaUnidade2] = useState(0);
+  const [newMetaUnidade3, setNewMetaUnidade3] = useState(0);
+  const [newMetaUnidade4, setNewMetaUnidade4] = useState(0);
+
+  useEffect(() => {
+    setNewMetaUnidade1(selectUnidadeMeta?.metas?.batismoConversos);
+    setNewMetaUnidade2(selectUnidadeMeta?.metas?.frequenciaSacramental);
+    setNewMetaUnidade3(selectUnidadeMeta?.metas?.campoMissionario);
+    setNewMetaUnidade4(selectUnidadeMeta?.metas?.nomesAoTemplo);
+  }, [selectUnidadeMeta]);
+
   return (
     <main className="metas">
+      <div
+        style={{
+          opacity: selectUnidadeMeta ? 5 : 0,
+          visibility: selectUnidadeMeta ? "visible" : "hidden",
+        }}
+        className="calendario--modal"
+      >
+        <div
+          style={{
+            transform: selectUnidadeMeta ? "scale(1)" : "scale(0)",
+          }}
+          className="calendario--alterar__evento"
+        >
+          <div className="calendario--alterar__evento--header">
+            <CgClose onClick={() => setSelectUnidadeMeta(null)} />
+
+            <p>Atualizar metas de {selectUnidadeMeta?.nome}</p>
+          </div>
+
+          <div className="calendario--alterar__evento--content">
+            <p>Batismos de conversos</p>
+            <input
+              placeholder="Nova meta"
+              value={newMetaUnidade1}
+              type="number"
+              onChange={(e) => setNewMetaUnidade1(e.target.value)}
+            />
+            <p>Frequência na sacramental</p>
+            <input
+              placeholder="Nova meta"
+              value={newMetaUnidade2}
+              type="number"
+              onChange={(e) => setNewMetaUnidade2(e.target.value)}
+            />
+            <p>Jovens enviados ao campo missionário</p>
+            <input
+              placeholder="Nova meta"
+              value={newMetaUnidade3}
+              type="number"
+              onChange={(e) => setNewMetaUnidade3(e.target.value)}
+            />
+            <p>Membros enviando nomes ao Templo</p>
+            <input
+              placeholder="Nova meta"
+              value={newMetaUnidade4}
+              type="number"
+              onChange={(e) => setNewMetaUnidade4(e.target.value)}
+            />
+          </div>
+
+          <button
+            onClick={() => {
+              updateMeta(
+                selectUnidadeMeta?.id,
+                {
+                  metas: {
+                    batismoConversos: parseFloat(newMetaUnidade1),
+                    frequenciaSacramental: parseFloat(newMetaUnidade2),
+                    campoMissionario: parseFloat(newMetaUnidade3),
+                    nomesAoTemplo: parseFloat(newMetaUnidade4),
+                  },
+                },
+                () => {
+                  setSelectUnidadeMeta(null);
+                }
+              );
+            }}
+          >
+            Atualizar
+          </button>
+        </div>
+      </div>
+
       <div style={{ height: 300 }} className="calendario--banner">
         <div>
           <svg
-            onClick={() => (window.location.href = "/")}
+            onClick={() =>
+              (window.location.href = `/${getUnidadeEstaca()?.estacaUID}`)
+            }
             width="24"
             height="24"
             viewBox="0 0 24 24"
@@ -110,7 +210,7 @@ function Metas({ unidades, loginGoogle }) {
           </svg>
 
           <p>Visão para a Área Brasil - Indicadores de Progresso</p>
-          <h6 style={{ marginBottom: 10 }}>Estaca Pacajus Brasil</h6>
+          <h6 style={{ marginBottom: 10 }}>{getUnidadeEstaca()?.nome}</h6>
 
           <div
             onClick={() => setModalUnidades(!modalUnidades)}
@@ -198,7 +298,16 @@ function Metas({ unidades, loginGoogle }) {
         {filterUnidade?.map((uni) =>
           uni?.nome !== "Grupo Icapuí" ? (
             <div className="metas__unidade">
-              <p>{uni?.nome}</p>
+              <p>
+                {uni?.nome}{" "}
+                {isAdmin() ? (
+                  <h5 onClick={() => setSelectUnidadeMeta(uni)}>
+                    Editar metas
+                  </h5>
+                ) : (
+                  ""
+                )}
+              </p>
 
               <div className="metas__unidade--charts">
                 <div>
@@ -568,7 +677,14 @@ function Metas({ unidades, loginGoogle }) {
         )}
         {filterEstaca?.map((uni) => (
           <div className="metas__unidade">
-            <p>{uni?.nome}</p>
+            <p>
+              {uni?.nome}
+              {isAdmin() ? (
+                <h5 onClick={() => setSelectUnidadeMeta(uni)}>Editar metas</h5>
+              ) : (
+                ""
+              )}
+            </p>
 
             <div className="metas__unidade--charts">
               <div>

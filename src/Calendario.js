@@ -16,7 +16,7 @@ import { SiFacebook, SiTwitter, SiWhatsapp } from "react-icons/si";
 import ItemUnidade from "./components/ItemUnidade";
 import { useLocation, useParams } from "react-router-dom";
 
-function Calendario({ unidades, loginGoogle }) {
+function Calendario({ unidades, loginGoogle, eventos }) {
   const [top, setTop] = useState(false);
 
   useEffect(() => {
@@ -64,6 +64,7 @@ function Calendario({ unidades, loginGoogle }) {
     "Dezembro",
   ];
 
+  const [modalUpdateEstaca, setModalUpdateEstaca] = useState(false);
   const [modalAddEvento, setModalAddEvento] = useState(false);
   const [selectOrgazinacao, setSelectOrgazinacao] = useState(null);
   const [organizacoes, setOrganizacoes] = useState([
@@ -178,32 +179,34 @@ function Calendario({ unidades, loginGoogle }) {
     }
   };
 
-  // const [unidades, setUnidades] = useState([]);
+  const [selectUnidade, setSelectUnidade] = useState({});
 
-  // useEffect(() => {
-  //   db.collection("unidades").onSnapshot((snapshot) => {
-  //     setUnidades(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-  //   });
-  // }, []);
+  const getUnidadeEstaca = () => {
+    var filter = unidades?.filter((uni) => {
+      return uni?.estaca === true;
+    });
 
-  const [selectUnidade, setSelectUnidade] = useState({
-    nome: "Estaca Pacajus",
-    email: "estacapacajussiao@gmail.com",
-  });
+    return filter[0];
+  };
+
+  useEffect(() => {
+    setSelectUnidade(getUnidadeEstaca());
+  }, [unidades]);
+
   const [modalUnidades, setModalUnidades] = useState(false);
 
   const getUnidadeInEmail = () => {
     return unidades.filter((uni) => {
-      return uni.email === user?.email;
+      return uni?.email === user?.email;
     });
   };
 
   const isAdmin = () => {
-    if (user?.email === selectUnidade.email) {
-      var filter = unidades.filter((uni) => {
-        return uni.email === user?.email;
+    if (user?.email === selectUnidade?.email) {
+      var filter = unidades?.filter((uni) => {
+        return uni?.email === user?.email;
       });
-      return filter.length > 0;
+      return filter?.length > 0;
     } else {
       return false;
     }
@@ -220,6 +223,7 @@ function Calendario({ unidades, loginGoogle }) {
       links: INPUTlinksEvento,
       selectOrgazinacao: selectOrgazinacao,
       unidade: getUnidadeInEmail()[0],
+      estacaUID: user?.uid,
     };
 
     db.collection("calendario")
@@ -234,7 +238,7 @@ function Calendario({ unidades, loginGoogle }) {
   };
 
   // Só esse email pode adicionar, atualizar e deletar o evento
-  const emailESTACAPACAJUS = "estacapacajussiao@gmail.com";
+  const emailESTACAPACAJUS = getUnidadeEstaca()?.email;
 
   const [{ user }, dispatch] = useStateValue();
 
@@ -265,9 +269,9 @@ function Calendario({ unidades, loginGoogle }) {
     }
   };
 
-  const textoCompartilhar = `Calendário anual da Estaca Pacajus Brasil 2022 ${encodeURIComponent(
-    document.URL
-  )}`;
+  const textoCompartilhar = `Calendário anual da ${getUnidadeEstaca()?.nome} ${
+    getUnidadeEstaca()?.ano
+  } ${encodeURIComponent(document.URL)}`;
 
   const [modalAddUnidade, setModalAddUnidade] = useState(false);
 
@@ -281,6 +285,7 @@ function Calendario({ unidades, loginGoogle }) {
     const objUnidade = {
       nome: INPUTnomeUnidade,
       email: INPUTemailUnidade,
+      estacaUID: user?.uid,
     };
 
     db.collection("unidades").add(objUnidade);
@@ -318,15 +323,61 @@ function Calendario({ unidades, loginGoogle }) {
         top: getOffset(elParam)?.top - 130,
       });
 
-      elParam.style.opacity = 0.7;
+      elParam.style.border = "1px solid #555";
     } else if (hash && el) {
       window.scrollTo({
         top: getOffset(el)?.top - 130,
       });
 
-      el.style.opacity = 0.7;
+      el.style.border = "1px solid #555";
     }
   }, [hash, el, idEvento, elParam]);
+
+  const [nomeEstaca, setNomeEstaca] = useState("");
+  const [emailEstaca, setEmailEstaca] = useState("");
+  const [ano, setAno] = useState("");
+
+  const [siteEstaca, setSiteEstaca] = useState("");
+  const [instagramEstaca, setInstagramEstaca] = useState("");
+  const [facebookEstaca, setFacebookEstaca] = useState("");
+
+  useEffect(() => {
+    setNomeEstaca(getUnidadeEstaca()?.nome);
+    setEmailEstaca(getUnidadeEstaca()?.email);
+    setAno(getUnidadeEstaca()?.ano);
+
+    setSiteEstaca(getUnidadeEstaca()?.siteEstaca);
+    setInstagramEstaca(getUnidadeEstaca()?.instagramEstaca);
+    setFacebookEstaca(getUnidadeEstaca()?.facebookEstaca);
+  }, []);
+
+  const updateUnidade = () => {
+    if (auth?.currentUser) {
+      auth?.currentUser
+        ?.updateProfile({
+          displayName: nomeEstaca,
+        })
+        ?.then(() => {
+          const objUnidade = {
+            nome: nomeEstaca,
+            email: emailEstaca,
+            estacaUID: user?.uid,
+            estaca: true,
+            ano: ano == "" ? new Date()?.getFullYear() : ano,
+            // links
+            siteEstaca: siteEstaca,
+            instagramEstaca: instagramEstaca,
+            facebookEstaca: facebookEstaca,
+          };
+
+          db.collection("unidades")
+            .doc(getUnidadeEstaca()?.id)
+            .update(objUnidade);
+
+          setModalUpdateEstaca(false);
+        });
+    }
+  };
 
   return (
     <>
@@ -334,8 +385,9 @@ function Calendario({ unidades, loginGoogle }) {
         <div>
           <svg
             onClick={() =>
-              (window.location.href =
-                "https://www.estacapacajus.com/calend%C3%A1rio-da-estaca")
+              // (window.location.href =
+              //   "https://www.estacapacajus.com/calend%C3%A1rio-da-estaca")
+              window.history.back()
             }
             width="24"
             height="24"
@@ -352,7 +404,10 @@ function Calendario({ unidades, loginGoogle }) {
             />
           </svg>
 
-          <p>CALENDÁRIO ANUAL DA ESTACA PACAJUS BRASIL 2022</p>
+          <p style={{ textTransform: "uppercase" }}>
+            CALENDÁRIO ANUAL DA {getUnidadeEstaca()?.nome}{" "}
+            {getUnidadeEstaca()?.ano}
+          </p>
           <a onClick={() => setModalShare(!modalShare)}>
             <svg
               stroke="currentColor"
@@ -385,6 +440,15 @@ function Calendario({ unidades, loginGoogle }) {
             />
             <p>{selectUnidade?.nome !== null ? selectUnidade?.nome : ""}</p>
           </div>
+
+          <a
+            style={{ marginTop: 15, marginBottom: -5 }}
+            onClick={() =>
+              (window.location.href = `/${getUnidadeEstaca()?.estacaUID}/metas`)
+            }
+          >
+            Indicadores de Progresso
+          </a>
         </div>
       </div>
 
@@ -473,7 +537,9 @@ function Calendario({ unidades, loginGoogle }) {
             <div
               style={{
                 background:
-                  selectUnidade.nome === item.nome ? "rgb(238, 240, 243)" : "",
+                  selectUnidade?.nome === item?.nome
+                    ? "rgb(238, 240, 243)"
+                    : "",
               }}
               onClick={() => {
                 setSelectUnidade(item);
@@ -483,6 +549,102 @@ function Calendario({ unidades, loginGoogle }) {
               <p>{item.nome}</p>
             </div>
           ))}
+        </div>
+
+        <div
+          style={{
+            opacity: modalUpdateEstaca ? 5 : 0,
+            visibility: modalUpdateEstaca ? "visible" : "hidden",
+          }}
+          className="calendario--modal"
+        >
+          <div
+            style={{
+              transform: modalUpdateEstaca ? "scale(1)" : "scale(0)",
+            }}
+            className="calendario--alterar__evento"
+          >
+            <div className="calendario--alterar__evento--header">
+              <CgClose
+                onClick={() => setModalUpdateEstaca(!modalUpdateEstaca)}
+              />
+
+              <p>Editar estaca</p>
+            </div>
+
+            <div className="calendario--alterar__evento--content">
+              <input
+                placeholder="Nome da estaca"
+                value={nomeEstaca}
+                onChange={(e) => setNomeEstaca(e.target.value)}
+              />
+              <input
+                style={{ marginTop: 10 }}
+                placeholder="Ano ex: 2022"
+                value={ano}
+                maxLength={4}
+                onChange={(e) => setAno(e.target.value)}
+              />
+              <input
+                style={{ marginTop: 10 }}
+                placeholder="Email da estaca"
+                value={emailEstaca}
+                disabled
+                onChange={(e) => setEmailEstaca(e.target.value)}
+              />
+              <p>Links</p>
+              <input
+                placeholder="Site da estaca"
+                value={siteEstaca}
+                onChange={(e) => setSiteEstaca(e.target.value)}
+              />
+              <input
+                placeholder="Instagram da estaca"
+                value={instagramEstaca}
+                style={{ marginTop: 10 }}
+                onChange={(e) => setInstagramEstaca(e.target.value)}
+              />
+              <input
+                placeholder="Facebook da estaca"
+                value={facebookEstaca}
+                style={{ marginTop: 10 }}
+                onChange={(e) => setFacebookEstaca(e.target.value)}
+              />
+              <button
+                onClick={() => {
+                  if (
+                    window.confirm(
+                      "Quer mesmo deletar sua estaca e as unidades? "
+                    )
+                  ) {
+                    unidades.map((uni) => {
+                      db.collection("unidades").doc(uni?.id).delete();
+                    });
+                  }
+                }}
+                className="erro-button"
+              >
+                Remover Estaca
+              </button>
+            </div>
+
+            {ano !== getUnidadeEstaca()?.ano ||
+            nomeEstaca !== getUnidadeEstaca()?.nome ||
+            emailEstaca !== getUnidadeEstaca()?.email ||
+            siteEstaca !== getUnidadeEstaca()?.siteEstaca ||
+            instagramEstaca !== getUnidadeEstaca()?.instagramEstaca ||
+            facebookEstaca !== getUnidadeEstaca()?.facebookEstaca ? (
+              ano?.length >= 4 ? (
+                <button onClick={() => updateUnidade()}>
+                  Atualizar informações
+                </button>
+              ) : (
+                <button disabled>Atualizar informações</button>
+              )
+            ) : (
+              <button disabled>Atualizar informações</button>
+            )}
+          </div>
         </div>
 
         <div className="calendario--filter">
@@ -503,6 +665,7 @@ function Calendario({ unidades, loginGoogle }) {
           {mesesFilter.map((mes) => (
             <ItemMes
               mes={mes}
+              eventos={eventos}
               selectUnidade={selectUnidade}
               user={user}
               organizacoes={organizacoes}
@@ -513,7 +676,7 @@ function Calendario({ unidades, loginGoogle }) {
 
         {user ? (
           <button
-            style={{ top: 12, height: "fit-content" }}
+            style={{ top: 8, height: "fit-content" }}
             onClick={() => {
               auth.signOut();
               dispatch({
@@ -527,7 +690,7 @@ function Calendario({ unidades, loginGoogle }) {
           </button>
         ) : (
           <button
-            style={{ top: 12, height: "fit-content" }}
+            style={{ top: 8, height: "fit-content" }}
             onClick={() => loginGoogle()}
           >
             <HiOutlineUser className="calendario--button-icon" />
@@ -537,7 +700,7 @@ function Calendario({ unidades, loginGoogle }) {
 
         <button
           style={{
-            bottom: top ? (isAdmin() ? 65 : 12) : -70,
+            bottom: top ? (isAdmin() ? 55 : 8) : -70,
             height: "fit-content",
             padding: "10px",
             borderRadius: "100%",
@@ -580,7 +743,23 @@ function Calendario({ unidades, loginGoogle }) {
 
         {user?.email === emailESTACAPACAJUS ? (
           <button
-            style={{ left: 12, right: "inital" }}
+            style={{
+              left: 8,
+              right: "inital",
+              width: "fit-content",
+              bottom: 55,
+            }}
+            onClick={() => setModalUpdateEstaca(!modalUpdateEstaca)}
+          >
+            Editar Estaca
+          </button>
+        ) : (
+          ""
+        )}
+
+        {user?.email === emailESTACAPACAJUS ? (
+          <button
+            style={{ left: 8, right: "inital", width: "fit-content" }}
             onClick={() => setModalAddUnidade(!modalAddUnidade)}
           >
             <VscAdd
@@ -788,7 +967,7 @@ function Calendario({ unidades, loginGoogle }) {
         </div>
       </div>
 
-      <Footer />
+      <Footer estaca={getUnidadeEstaca()} />
     </>
   );
 }

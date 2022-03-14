@@ -1,0 +1,76 @@
+.calendario--home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.calendario--titles {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.calendario--titles > svg {
+  width: 110px;
+  height: 110px;
+}
+
+.calendario--titles > svg path {
+  fill: var(--color-text);
+}
+
+.calendario--titles > p {
+  font-size: 22px;
+  color: var(--color-text);
+  font-weight: 400;
+  margin-top: 12px;
+}
+
+.calendario--titles > p strong {
+  color: rgba(14, 57, 86, 1);
+  font-weight: 600;
+}
+
+.calendario--titles > h5 {
+  font-size: 15px;
+  margin: 12px 0;
+  font-size: 17px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--color-text-2);
+}
+
+.calendario--titles > div {
+  display: flex;
+  align-items: center;
+}
+
+.calendario--titles > div > button {
+  border-radius: 18px;
+  border: none;
+  outline: none;
+  padding: 11px 17px;
+  box-shadow: 0 0 25px 5px rgba(120, 120, 122, 0.486);
+  background-color: rgba(14, 57, 86, 1);
+  color: #fff;
+  font-size: 15.5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  margin: 5px;
+}
+
+.calendario--titles > div > button:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+.calendario--home > a {
+  color: rgba(14, 57, 86, 1);
+  text-align: center;
+  margin: 20px auto;
+  width: fit-content;
+  cursor: pointer;
+  text-decoration: underline;
+}

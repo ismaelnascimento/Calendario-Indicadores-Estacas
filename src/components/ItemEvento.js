@@ -8,6 +8,7 @@ import { VscAdd } from "react-icons/vsc";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { SiFacebook, SiTwitter, SiWhatsapp } from "react-icons/si";
 import { useLocation } from "react-router-dom";
+import { useStateValue } from "../providers/StateProvider";
 
 function ItemEvento(props) {
   const meses = [
@@ -78,6 +79,8 @@ function ItemEvento(props) {
   };
 
   // EVENTOS events ;D
+
+  const [{ user }] = useStateValue();
 
   // -- UPDATE --
   const updateEvento = (e, id) => {
@@ -370,10 +373,10 @@ function ItemEvento(props) {
           selectOrgazinacao?.organizacao !==
             props.evento?.selectOrgazinacao?.organizacao ? (
             <button onClick={(e) => updateEvento(e, props.evento.id)}>
-              Alterar
+              Salvar Alteração
             </button>
           ) : (
-            <button disabled={true}>Alterar</button>
+            <button disabled={true}>Salvar Alteração</button>
           )}
         </div>
       </div>

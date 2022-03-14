@@ -1,0 +1,66 @@
+.calendario--home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendario--home > p {
+  font-size: 25px;
+  font-weight: 600;
+  margin: 22px 0;
+  color: rgba(14, 57, 86, 1);
+}
+
+.calendario--home__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+}
+
+.calendario--home__list > div {
+  width: 300px;
+  background-color: #fff;
+  margin: 7px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 11px;
+  cursor: pointer;
+}
+
+.calendario--home__list > div:hover {
+  opacity: 0.8;
+}
+
+.calendario--home__list > div > div {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.calendario--home__list > div > div > svg {
+  width: 22px;
+  height: 22px;
+}
+
+.calendario--home__list > div > div > svg path {
+  fill: rgba(14, 57, 86, 1);
+}
+
+.calendario--home__list > div > div > p {
+  font-size: 15px;
+  margin-left: 5px;
+  font-weight: 400;
+  color: rgba(14, 57, 86, 1);
+}
+
+.calendario--home__list > div > p {
+  color: var(--color-text);
+  width: 100%;
+  font-size: 17px;
+  font-weight: 600;
+  margin-top: 4px;
+}
