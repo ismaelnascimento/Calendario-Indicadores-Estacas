@@ -35,14 +35,32 @@
   font-weight: 700;
   border-left: 3px solid rgba(14, 57, 86, 1);
   padding-left: 12px;
+  display: flex;
+  align-items: center;
   color: rgba(14, 57, 86, 1);
 }
 
 .metas__unidade > p > h5 {
-  font-size: 14px;
+  background-color: rgba(14, 57, 86, 1);
+  color: #000;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  padding: 18px;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  outline: none;
+  height: 40px;
+  font-size: 15.5px;
+  border: none;
   cursor: pointer;
-  margin-top: 1px;
-  font-weight: 400;
+  border-radius: 12px;
+  color: #fff;
+}
+
+.metas__unidade > p > h5:hover {
+  background-color: rgb(46, 97, 134);
 }
 
 .metas__unidade--charts {

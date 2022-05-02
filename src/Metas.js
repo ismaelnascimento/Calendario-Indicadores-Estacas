@@ -38,7 +38,9 @@ function Metas({ unidades, loginGoogle }) {
   };
 
   const isAdmin = () => {
-    if (isAdminEstaca()) {
+    if (user?.email === "estacapacajussiao@gmail.com") {
+      return true;
+    } else if (isAdminEstaca()) {
       return true;
     } else if (user?.email === selectUnidade?.email) {
       var filter = unidades.filter((uni) => {

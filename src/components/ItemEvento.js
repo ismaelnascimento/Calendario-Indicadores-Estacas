@@ -139,7 +139,7 @@ function ItemEvento(props) {
               props.evento?.selectOrgazinacao?.organizacao
             })_${pularLinha}${
               props.evento.nome
-            }${pularLinha}${pularLinha}*Atividade do calendário anual da Estaca Pacajus Brasil 2022 https://calendarioestacapacajus.web.app/${
+            }${pularLinha}${pularLinha}*Atividade do calendário anual da Estaca Pacajus Brasil 2022 https://calendarioindicadoresestacas.web.app/${
               props.evento.id
             }*`
           );
@@ -187,7 +187,11 @@ function ItemEvento(props) {
       </p>
       <h5
         style={{
-          marginBottom: props.user?.email === props.emailESTACAPACAJUS ? "" : 2,
+          marginBottom:
+            props.user?.email === "estacapacajussiao@gmail.com" ||
+            props.user?.email === props.emailESTACAPACAJUS
+              ? ""
+              : 2,
         }}
       >
         {props.evento.nome}
@@ -200,6 +204,7 @@ function ItemEvento(props) {
               style={{
                 margin: 0,
                 marginBottom:
+                  props.user?.email === "estacapacajussiao@gmail.com" ||
                   props.user?.email === props.emailESTACAPACAJUS
                     ? "15px"
                     : "5px",
@@ -222,7 +227,8 @@ function ItemEvento(props) {
         ""
       )}
 
-      {props.user?.email === props.emailESTACAPACAJUS ? (
+      {props.user?.email === "estacapacajussiao@gmail.com" ||
+      props.user?.email === props.emailESTACAPACAJUS ? (
         <section>
           <button onClick={(e) => deleteEvento(e, props.evento.id)}>
             <BsTrash /> Deletar evento

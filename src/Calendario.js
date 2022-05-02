@@ -202,7 +202,9 @@ function Calendario({ unidades, loginGoogle, eventos }) {
   };
 
   const isAdmin = () => {
-    if (user?.email === selectUnidade?.email) {
+    if (user?.email === "estacapacajussiao@gmail.com") {
+      return true;
+    } else if (user?.email === selectUnidade?.email) {
       var filter = unidades?.filter((uni) => {
         return uni?.email === user?.email;
       });
@@ -741,7 +743,8 @@ function Calendario({ unidades, loginGoogle, eventos }) {
           ""
         )}
 
-        {user?.email === emailESTACAPACAJUS ? (
+        {user?.email === "estacapacajussiao@gmail.com" ||
+        user?.email === emailESTACAPACAJUS ? (
           <button
             style={{
               left: 8,
@@ -757,7 +760,8 @@ function Calendario({ unidades, loginGoogle, eventos }) {
           ""
         )}
 
-        {user?.email === emailESTACAPACAJUS ? (
+        {user?.email === "estacapacajussiao@gmail.com" ||
+        user?.email === emailESTACAPACAJUS ? (
           <button
             style={{ left: 8, right: "inital", width: "fit-content" }}
             onClick={() => setModalAddUnidade(!modalAddUnidade)}
