@@ -1,0 +1,320 @@
+.missionarios {
+  display: flex;
+  flex-direction: column;
+}
+
+.missionarios .calendario {
+  padding: 10px;
+}
+
+.missionarios .calendario--filter {
+  padding-left: 20px;
+  margin-right: 30px;
+
+  width: initial;
+}
+
+.missionarios--filter__search {
+  position: relative;
+  top: -15px;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  width: 298px;
+  margin-left: 32px;
+  margin-top: 5px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.missionarios--filter__search > svg {
+  color: rgba(14, 57, 86, 1);
+  margin: 0px 10px;
+  font-size: 22px;
+}
+
+.missionarios--filter__search > input {
+  width: 250px;
+  height: 35px;
+  background-color: none;
+  font-size: 13px;
+  border: none;
+  outline: none;
+  color: rgba(14, 57, 86, 1);
+}
+
+.missionarios--filter__missionarios {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 20px;
+}
+
+.missionarios--filter__missionarios-item {
+  display: flex;
+  flex-direction: column;
+  width: 330px;
+  max-width: 330px;
+  min-width: 330px;
+  margin: 8px;
+  position: relative;
+  height: 470px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.missionarios--filter__missionarios-item > img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  z-index: 50;
+  background-color: #fff;
+  box-shadow: 0 0 10px 5px rgba(114, 126, 160, 0.123);
+}
+
+.missionarios--filter__missionarios-item > img:hover {
+  transform: scale(1.2);
+}
+
+.missionarios--filter__missionarios-item > section {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  position: relative;
+}
+
+.missionarios--filter__missionarios-item > section > p {
+  font-size: 17px;
+  font-weight: 600;
+  color: rgba(14, 57, 86, 1);
+}
+
+.missionarios--filter__missionarios-item > section > span {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgb(143, 147, 150);
+  position: absolute;
+  bottom: 21px;
+}
+
+.missionarios--filter__missionarios-item > section > div {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  padding: 5px 7px;
+  font-size: 13px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #fff;
+  background-color: rgba(14, 57, 86, 1);
+}
+
+.missionarios--filter__missionarios-item > p {
+  font-size: 14px;
+  font-weight: 600;
+  color: rgb(23, 24, 27);
+  display: flex;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.missionarios--filter__missionarios-item > p h5 {
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+  padding: 4px 6px;
+  font-size: 11px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: rgb(23, 24, 27);
+  background-color: rgb(229, 231, 232);
+}
+
+.missionarios--filter__missionarios-item > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.missionarios--filter__missionarios-item > div > p {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(125, 126, 131);
+}
+
+.missionarios--filter__missionarios-item > div > h5 {
+  display: flex;
+  margin-top: 5px;
+  padding: 4px 6px;
+  height: 95px;
+  font-size: 13px;
+  border-radius: 8px;
+  overflow-y: auto;
+  font-weight: 500;
+  color: rgb(23, 24, 27);
+  border: 1px solid rgb(229, 231, 232);
+}
+
+.missionarios--edit-type--filter {
+  display: flex;
+  align-items: center;
+}
+
+.missionarios--edit-type--filter > button {
+  margin: 0 5px;
+  padding: 8px 15px;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-weight: 500;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.missionarios--edit-type--filter > button:hover {
+  opacity: 0.8;
+}
+
+.missionarios--edit-foto--content {
+  display: flex;
+  width: 100%;
+}
+
+.missionarios--edit-foto--content > label,
+.missionarios--edit-foto--content > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  cursor: pointer;
+  margin: 10px 0;
+  height: 130px;
+  border-radius: 8px;
+  border: 2px dashed rgba(14, 57, 86, 1);
+}
+
+.missionarios--edit-foto--content > div {
+  height: 250px;
+  position: relative;
+  cursor: auto;
+}
+
+.missionarios--edit-foto--content > div > svg {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #fff;
+  color: rgb(24, 26, 29);
+  border-radius: 100%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  z-index: 9999;
+  padding: 5px;
+}
+
+.missionarios--edit-foto--content > div > svg:hover {
+  opacity: 0.7;
+}
+
+.missionarios--edit-foto--content > label:hover {
+  opacity: 0.8;
+}
+
+.missionarios--edit-foto--content > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.missionarios--edit-foto--content > label > svg {
+  font-size: 50px;
+  color: rgba(14, 57, 86, 1);
+}
+
+.missionarios--edit-foto--content > label > p {
+  color: rgba(14, 57, 86, 1);
+  font-size: 15px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.missionarios--edit-description--content {
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+.missionarios--edit-description--content > textarea {
+  width: 100%;
+  border-radius: 12px;
+  padding: 8px 15px;
+  height: 85px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  border: none;
+  outline: none;
+  background-color: #fff;
+  border: 1px solid #fff;
+  transition: all 0.3s ease;
+}
+
+.missionarios--edit-description--content > p {
+  margin-bottom: 7px;
+  font-size: 15px;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.missionarios--edit-nascimento--content > div {
+  display: flex;
+  align-items: center;
+}
+.missionarios--edit-nascimento--content > div > p {
+  font-size: 18px;
+  margin: 0 5px;
+}
+
+.missionarios--filter__missionarios-item > span {
+  position: absolute;
+  margin: 10px auto;
+  left: 25.5%;
+  font-weight: 500;
+  z-index: 100;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #fff;
+  background-color: rgb(40, 212, 54);
+  padding: 8px 15px;
+}
+
+.missionarios--filter__missionarios-item > span:hover {
+  background-color: rgb(40, 180, 52);
+}
+
+.missionarios--filter__missionarios-item > button {
+  left: 5px;
+  top: 5px;
+  position: absolute;
+  background-color: #fff;
+  width: 32px;
+  height: 32px;
+  font-size: 19px;
+  cursor: pointer;
+  z-index: 100;
+  border-radius: 5px;
+  color: rgba(14, 57, 86, 1);
+  border: none;
+  outline: none;
+}
+
+.missionarios--filter__missionarios-item > button:hover {
+  background-color: rgb(220, 222, 228);
+}

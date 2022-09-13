@@ -181,6 +181,7 @@
   display: flex;
   align-items: center;
   margin-right: 12px;
+  white-space: nowrap;
   cursor: pointer;
   font-weight: 500;
 }

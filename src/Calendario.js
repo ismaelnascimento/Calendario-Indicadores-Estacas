@@ -451,6 +451,16 @@ function Calendario({ unidades, loginGoogle, eventos }) {
           >
             Indicadores de Progresso
           </a>
+          <a
+            style={{ marginTop: 15, marginBottom: -5 }}
+            onClick={() =>
+              (window.location.href = `/${
+                getUnidadeEstaca()?.estacaUID
+              }/missionarios`)
+            }
+          >
+            Relação missionária
+          </a>
         </div>
       </div>
 

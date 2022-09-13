@@ -15,6 +15,7 @@ import Home from "./Home";
 import CalendarioApp from "./Apps/CalendarioApp";
 import MetasApp from "./Apps/MetasApp";
 import Estacas from "./Estacas";
+import MissionariosApp from "./Apps/MissionariosApp";
 
 function App() {
   const [unidades, setUnidades] = useState([]);
@@ -132,6 +133,17 @@ function App() {
               path="/:estacaUID/metas"
               element={
                 <MetasApp
+                  getEstaca={getEstaca}
+                  unidades={unidades}
+                  eventos={eventosget}
+                  loginGoogle={loginGoogle}
+                />
+              }
+            />
+            <Route
+              path="/:estacaUID/missionarios"
+              element={
+                <MissionariosApp
                   getEstaca={getEstaca}
                   unidades={unidades}
                   eventos={eventosget}
