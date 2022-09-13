@@ -215,11 +215,13 @@ function ItemMissionario({
                     }
                     style={{ display: "none" }}
                     type="file"
-                    id="upload-edit-img-missionario"
+                    id={"upload-edit-img-missionario" + missionario?.id}
                   />
 
                   {!uploadImgMissionarioView ? (
-                    <label htmlFor="upload-edit-img-missionario">
+                    <label
+                      htmlFor={"upload-edit-img-missionario" + missionario?.id}
+                    >
                       <BiUserCircle />
                       <p>Sua foto padrão missionário</p>
                     </label>
@@ -274,6 +276,7 @@ function ItemMissionario({
                       onClick={() => {
                         setSelectUnidade(item);
                         setModalUnidades(false);
+                        setModalSelect(false);
                       }}
                     >
                       <p>{item.nome}</p>
