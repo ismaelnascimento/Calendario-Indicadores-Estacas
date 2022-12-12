@@ -184,6 +184,24 @@
   white-space: nowrap;
   cursor: pointer;
   font-weight: 500;
+  position: relative;
+}
+
+.calendario--filter > button > span {
+  background-color: #fff;
+  box-shadow: 0 0 5px 5px rgba(114, 126, 160, 0.055);
+  color: rgba(14, 57, 86, 1);
+  width: 23px;
+  height: 23px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 100%;
+  top: 24px;
+  left: -8px;
 }
 
 .erro-button {

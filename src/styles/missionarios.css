@@ -60,7 +60,7 @@
   min-width: 330px;
   margin: 8px;
   position: relative;
-  height: 470px;
+  height: 475px;
   background-color: #fff;
   border-radius: 10px;
   padding: 12px;
@@ -68,16 +68,18 @@
 
 .missionarios--filter__missionarios-item > img {
   width: 100%;
-  height: 250px;
+  height: 255px;
+  max-height: 255px;
+  min-height: 255px;
   object-fit: cover;
   border-radius: 10px;
-  z-index: 50;
   background-color: #fff;
   box-shadow: 0 0 10px 5px rgba(114, 126, 160, 0.123);
 }
 
 .missionarios--filter__missionarios-item > img:hover {
   transform: scale(1.2);
+  z-index: 50;
 }
 
 .missionarios--filter__missionarios-item > section {
@@ -156,6 +158,49 @@
   font-weight: 500;
   color: rgb(23, 24, 27);
   border: 1px solid rgb(229, 231, 232);
+}
+
+.missionarios--filter__missionarios-item > article {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.missionarios--filter__missionarios-item > article > a {
+  width: 100%;
+  height: 35px;
+  border-radius: 5px;
+  background-color: rgba(14, 57, 86, 1);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.missionarios--filter__missionarios-item > article > a:hover {
+  background-color: rgb(46, 97, 134);
+}
+
+.missionarios--filter__missionarios-item > article > svg {
+  width: 35px;
+  height: 35px;
+  max-width: 35px;
+  max-height: 35px;
+  min-width: 35px;
+  cursor: pointer;
+  min-height: 35px;
+  padding: 6px;
+  color: rgb(24, 26, 29);
+  border-radius: 5px;
+  margin-left: 8px;
+  background-color: rgb(229, 231, 232);
+}
+
+.missionarios--filter__missionarios-item > article > svg:hover {
+  background-color: rgb(207, 207, 207);
 }
 
 .missionarios--edit-type--filter {
@@ -308,7 +353,7 @@
   height: 32px;
   font-size: 19px;
   cursor: pointer;
-  z-index: 100;
+  /* z-index: 100; */
   border-radius: 5px;
   color: rgba(14, 57, 86, 1);
   border: none;

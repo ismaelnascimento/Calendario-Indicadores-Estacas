@@ -52,7 +52,7 @@ function Missionarios({ unidades, loginGoogle }) {
         snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
       );
     });
-  }, []);
+  }, [activeFilter]);
 
   const missionariosfilter = useMemo(() => {
     let estacafilter = missionarios?.filter((missionario) => {
@@ -75,6 +75,27 @@ function Missionarios({ unidades, loginGoogle }) {
     });
   }, [search, missionariosfilter]);
 
+  // ---
+  const lengthPerspectiva = useMemo(() => {
+    var filter = filterSearch?.filter((missionario) => {
+      return missionario?.type === "Em perspectiva";
+    });
+    return filter?.length;
+  }, [filterSearch]);
+  const lengthCampo = useMemo(() => {
+    var filter = filterSearch?.filter((missionario) => {
+      return missionario?.type === "No campo";
+    });
+    return filter?.length;
+  }, [filterSearch]);
+  const lengthRetornado = useMemo(() => {
+    var filter = filterSearch?.filter((missionario) => {
+      return missionario?.type === "Retornado";
+    });
+    return filter?.length;
+  }, [filterSearch]);
+  // ---
+
   const filterMissionarios = useMemo(() => {
     return filterSearch?.filter((missionario) => {
       return missionario?.type === activeFilter;
@@ -91,6 +112,7 @@ function Missionarios({ unidades, loginGoogle }) {
   const [dataIda, setDataIda] = useState("");
   const [description, setDescription] = useState("");
   const [localMissao, setLocalMissao] = useState("");
+  const [email, setEmail] = useState("");
 
   //
   const [uploadImgMissionario, setUploadImgMissionario] = useState(null);
@@ -162,6 +184,7 @@ function Missionarios({ unidades, loginGoogle }) {
                 },
                 dataIda,
                 dataRetorno,
+                email,
               });
               setModalAdd(false);
               setUploadImgMissionario(null);
@@ -218,6 +241,23 @@ function Missionarios({ unidades, loginGoogle }) {
     let ano = new Date()?.getFullYear() + (idademissao - getIdade(n));
     return `${n?.dia} de ${month[parseFloat(n?.mes) - 1]}, ${ano}`;
   };
+
+  const [top, setTop] = useState(false);
+
+  useEffect(() => {
+    const eventScrool = () => {
+      if (window.scrollY > 100) {
+        setTop(true);
+      } else {
+        setTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", eventScrool);
+    return () => {
+      window.removeEventListener("scroll", eventScrool);
+    };
+  }, []);
 
   return (
     <main className="missionarios">
@@ -422,6 +462,17 @@ function Missionarios({ unidades, loginGoogle }) {
                     onChange={(e) => setDataRetorno(e.target.value)}
                   />
                 </section>
+                {activeFilter === "No campo" ? (
+                  <input
+                    style={{ marginTop: "15px" }}
+                    placeholder="Email missionário"
+                    value={email}
+                    type="text"
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                ) : (
+                  ""
+                )}
               </>
             )}
             <div className="missionarios--edit-description--content">
@@ -547,7 +598,7 @@ function Missionarios({ unidades, loginGoogle }) {
 
         {user ? (
           <button
-            style={{ top: 12, height: "fit-content" }}
+            style={{ top: 8, height: "fit-content" }}
             onClick={() => {
               auth.signOut();
               dispatch({
@@ -561,7 +612,7 @@ function Missionarios({ unidades, loginGoogle }) {
           </button>
         ) : (
           <button
-            style={{ top: 12, height: "fit-content" }}
+            style={{ top: 8, height: "fit-content" }}
             onClick={() => loginGoogle()}
           >
             <HiOutlineUser className="calendario--button-icon" />
@@ -569,8 +620,45 @@ function Missionarios({ unidades, loginGoogle }) {
           </button>
         )}
 
-        <button onClick={() => setModalAdd(!modalAdd)}>
+        <button
+          style={{ left: 8, right: "inital", width: "fit-content" }}
+          onClick={() => setModalAdd(!modalAdd)}
+        >
           Adicionar missionário
+        </button>
+        <button
+          style={{
+            bottom: top ? 8 : -70,
+            height: "fit-content",
+            padding: "10px",
+            borderRadius: "100%",
+            transition: "all 0.3s ease",
+          }}
+          onClick={() => window.scrollTo({ top: 0 })}
+        >
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              opacity="0.4"
+              d="M11.7256 4.25L11.7256 19.25"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M5.70124 10.2998L11.7252 4.2498L17.7502 10.2998"
+              stroke="#fff"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
         </button>
       </div>
 
@@ -594,6 +682,13 @@ function Missionarios({ unidades, loginGoogle }) {
             }}
           >
             {filter}
+            <span>
+              {filter === "Em perspectiva"
+                ? lengthPerspectiva
+                : filter === "No campo"
+                ? lengthCampo
+                : lengthRetornado}
+            </span>
           </button>
         ))}
       </div>

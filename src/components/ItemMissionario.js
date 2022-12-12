@@ -4,6 +4,7 @@ import { BsTrash } from "react-icons/bs";
 import { CgClose } from "react-icons/cg";
 import { FiEdit2 } from "react-icons/fi";
 import { TiArrowSortedDown } from "react-icons/ti";
+import { BiCopy } from "react-icons/bi";
 import { useStateValue } from "../providers/StateProvider";
 import { db, storage } from "../services/Firebase";
 
@@ -44,6 +45,7 @@ function ItemMissionario({
   const [dataIda, setDataIda] = useState("");
   const [description, setDescription] = useState("");
   const [localMissao, setLocalMissao] = useState("");
+  const [email, setEmail] = useState("");
 
   //
   const [uploadImgMissionario, setUploadImgMissionario] = useState(null);
@@ -60,9 +62,10 @@ function ItemMissionario({
     setDataIda(missionario?.dataIda);
     setLocalMissao(missionario?.localMissao);
     setActiveFilter(missionario?.type);
-    setDescription(missionario?.citacao?.replace("<br/>", "\n"));
+    setDescription(missionario?.citacao?.replaceAll("<br/>", "\n"));
     setSelectUnidade(missionario?.unidade);
     setUploadImgMissionarioView(missionario?.foto);
+    setEmail(missionario?.email ? missionario?.email : "");
   }, [missionario]);
 
   if (uploadImgMissionario) {
@@ -128,6 +131,7 @@ function ItemMissionario({
                   },
                   dataIda,
                   dataRetorno,
+                  email,
                 });
               setModalAdd(false);
               setUploadImgMissionario(null);
@@ -160,8 +164,22 @@ function ItemMissionario({
           },
           dataIda,
           dataRetorno,
+          email,
         });
       setModalAdd(false);
+    }
+  };
+
+  const COPY = (text) => {
+    if (document.queryCommandSupported("copy")) {
+      var textField = document.createElement("textarea");
+      textField.innerText = text;
+      document.body.appendChild(textField);
+      textField.select();
+      document.execCommand("copy");
+      textField.remove();
+
+      alert("Copiado!");
     }
   };
 
@@ -381,8 +399,20 @@ function ItemMissionario({
                         onChange={(e) => setDataRetorno(e.target.value)}
                       />
                     </section>
+                    {activeFilter === "No campo" ? (
+                      <input
+                        style={{ marginTop: "15px" }}
+                        placeholder="Email missionário"
+                        value={email}
+                        type="text"
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                    ) : (
+                      ""
+                    )}
                   </>
                 )}
+
                 <div className="missionarios--edit-description--content">
                   <p>Citação ou escritura favorita:</p>
                   <textarea
@@ -415,7 +445,13 @@ function ItemMissionario({
             </div>
           </div>
 
-          <div className="missionarios--filter__missionarios-item">
+          <div
+            style={{
+              height:
+                missionario?.type === "No campo" && email !== "" ? "515px" : "",
+            }}
+            className="missionarios--filter__missionarios-item"
+          >
             {missionario?.status === 2 ? (
               <span
                 onClick={() => {
@@ -468,19 +504,37 @@ function ItemMissionario({
                 </h5>
               </p>
             ) : (
-              <p>
-                {missionario?.localMissao}
-                <h5>
-                  {missionario?.dataIda}-{missionario?.dataRetorno}
-                </h5>
-              </p>
+              <>
+                <p>
+                  {missionario?.localMissao}
+                  <h5>
+                    {missionario?.dataIda}-{missionario?.dataRetorno}
+                  </h5>
+                </p>
+              </>
             )}
             <div>
               <p>Citação ou escritura favorita:</p>
               <h5 style={{ whiteSpace: "pre-line" }}>
-                {missionario?.citacao?.replace("<br/>", "\n")}
+                {missionario?.citacao?.replaceAll("<br/>", "\n")}
               </h5>
             </div>
+            {missionario?.type === "No campo" ? (
+              <>
+                {email !== "" ? (
+                  <article>
+                    <a onClick={() => window.open(`mailto:${email}`)}>
+                      Enviar mensagem
+                    </a>
+                    <BiCopy onClick={() => COPY(email)} />
+                  </article>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              ""
+            )}
           </div>
         </>
       )}
