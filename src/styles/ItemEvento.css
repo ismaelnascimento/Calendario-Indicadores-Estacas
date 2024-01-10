@@ -59,6 +59,7 @@
 .calendario__mes-eventos--item_infos > p > b {
   font-size: 12px;
   font-weight: 300;
+  color: rgb(106, 110, 121);
   margin-right: 5px;
   text-transform: uppercase;
 }
