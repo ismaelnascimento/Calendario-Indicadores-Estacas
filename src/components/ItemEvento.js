@@ -32,6 +32,9 @@ function ItemEvento(props) {
   const [INPUTdiaEvento, setINPUTdiaEvento] = useState("");
   const [INPUTmesEvento, setINPUTmesEvento] = useState("");
   const [INPUTlinksEvento, setINPUTlinksEvento] = useState([]);
+  const [INPUTlocalEvento, setINPUTlocalEvento] = useState("");
+  const [INPUThorarioEvento, setINPUThorarioEvento] = useState("");
+  const [INPUTinfoextraEvento, setINPUTinfoextraEvento] = useState("");
 
   //
 
@@ -44,6 +47,9 @@ function ItemEvento(props) {
     setOrganizacoes(props.organizacoes);
     setINPUTmesEvento(props.evento.mes);
     setINPUTnomeEvento(props.evento.nome);
+    setINPUTlocalEvento(props.evento?.local);
+    setINPUThorarioEvento(props.evento?.horario);
+    setINPUTinfoextraEvento(props.evento?.infoextra);
     setINPUTdiaEvento(props.evento.dia);
     setINPUTlinksEvento(props.evento?.links ? props.evento?.links : []);
     setSelectOrgazinacao(props.evento?.selectOrgazinacao);
@@ -90,6 +96,9 @@ function ItemEvento(props) {
       mes: INPUTmesEvento,
       dia: INPUTdiaEvento,
       nome: INPUTnomeEvento,
+      local: INPUTlocalEvento,
+      horario: INPUThorarioEvento,
+      infoextra: INPUTinfoextraEvento,
       links: INPUTlinksEvento,
       selectOrgazinacao: selectOrgazinacao,
       unidade: selectUnidade,
@@ -103,6 +112,9 @@ function ItemEvento(props) {
 
     setINPUTmesEvento("");
     setINPUTnomeEvento("");
+    setINPUTlocalEvento("");
+    setINPUThorarioEvento("");
+    setINPUTinfoextraEvento("");
     setINPUTdiaEvento("");
     setModalUpdateEvento(!modalUpdateEvento);
   };
@@ -158,7 +170,7 @@ function ItemEvento(props) {
         </svg>
       </a>
 
-      {selectUnidade !== {} ? (
+      {selectUnidade?.email ? (
         <h6>
           {selectUnidade?.email === "estacapacajussiao@gmail.com"
             ? "Nível Estaca"
@@ -185,7 +197,9 @@ function ItemEvento(props) {
           ""
         )}
       </p>
-      <h5
+      {/* INFOS */}
+      <div
+        className="calendario__mes-eventos--item_infos"
         style={{
           marginBottom:
             props.user?.email === "estacapacajussiao@gmail.com" ||
@@ -194,8 +208,29 @@ function ItemEvento(props) {
               : 2,
         }}
       >
-        {props.evento.nome}
-      </h5>
+        <p>
+          {props.evento?.local && props.evento?.horario && <b>Evento:</b>}
+          {props.evento?.nome}
+        </p>
+        {props.evento?.local && (
+          <p>
+            <b>Local:</b> {props.evento?.local}
+          </p>
+        )}
+        {props.evento?.horario && (
+          <p>
+            <b>Horário:</b> {props.evento?.horario}
+          </p>
+        )}
+        {props.evento?.infoextra && (
+          <>
+            <hr></hr>
+            <p>
+              <b>{props.evento?.infoextra}</b>
+            </p>
+          </>
+        )}
+      </div>
 
       {INPUTlinksEvento?.length !== 0 ? (
         <div className="calendario--alterar__evento--content__links">
@@ -263,6 +298,21 @@ function ItemEvento(props) {
               placeholder="Nome do evento..."
               value={INPUTnomeEvento}
               onChange={(e) => setINPUTnomeEvento(e.target.value)}
+            />
+            <input
+              placeholder="Local do evento"
+              value={INPUTlocalEvento}
+              onChange={(e) => setINPUTlocalEvento(e.target.value)}
+            />
+            <input
+              placeholder="Horário do evento"
+              value={INPUThorarioEvento}
+              onChange={(e) => setINPUThorarioEvento(e.target.value)}
+            />
+            <input
+              placeholder="Informação extra do evento (Opicional)"
+              value={INPUTinfoextraEvento}
+              onChange={(e) => setINPUTinfoextraEvento(e.target.value)}
             />
 
             <div
@@ -373,6 +423,9 @@ function ItemEvento(props) {
           </div>
 
           {INPUTnomeEvento !== props.evento.nome ||
+          INPUTlocalEvento !== props.evento?.local ||
+          INPUThorarioEvento !== props.evento?.horario ||
+          INPUTinfoextraEvento !== props.evento?.infoextra ||
           INPUTdiaEvento !== props.evento.dia ||
           INPUTmesEvento !== props.evento.mes ||
           INPUTlinksEvento !== props.evento?.links ||

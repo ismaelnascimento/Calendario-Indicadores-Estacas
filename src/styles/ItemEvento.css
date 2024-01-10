@@ -36,16 +36,42 @@
   min-width: 85px;
 }
 
-.calendario__mes-eventos--item > h5 {
+/* .calendario__mes-eventos--item > h5 {
   font-size: 16px;
   margin: 11px 0;
   font-weight: 600;
   color: rgb(32, 33, 36);
+} */
+.calendario__mes-eventos--item_infos {
+  display: flex;
+  flex-direction: column;
+  margin: 11px 0;
+}
+
+.calendario__mes-eventos--item_infos > p {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: rgb(32, 33, 36);
+}
+
+.calendario__mes-eventos--item_infos > p > b {
+  font-size: 12px;
+  font-weight: 300;
+  margin-right: 5px;
+  text-transform: uppercase;
+}
+
+.calendario__mes-eventos--item_infos > hr {
+  margin: 5px 0;
+  border-color: rgba(32, 33, 36, 0.101);
 }
 
 .calendario__mes-eventos--item > section {
   display: flex;
   align-items: center;
+  margin-top: 10px;
 }
 
 .calendario__mes-eventos--item > a {

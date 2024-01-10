@@ -148,6 +148,9 @@ function Calendario({ unidades, loginGoogle, eventos }) {
   const [modalSelect, setModalSelect] = useState(false);
   //
   const [INPUTnomeEvento, setINPUTnomeEvento] = useState("");
+  const [INPUTlocalEvento, setINPUTlocalEvento] = useState("");
+  const [INPUThorarioEvento, setINPUThorarioEvento] = useState("");
+  const [INPUTinfoextraEvento, setINPUTinfoextraEvento] = useState("");
   const [INPUTdiaEvento, setINPUTdiaEvento] = useState("");
   const [INPUTmesEvento, setINPUTmesEvento] = useState("");
   // -link-
@@ -222,6 +225,9 @@ function Calendario({ unidades, loginGoogle, eventos }) {
       mes: INPUTmesEvento,
       dia: INPUTdiaEvento,
       nome: INPUTnomeEvento,
+      local: INPUTlocalEvento,
+      horario: INPUThorarioEvento,
+      infoextra: INPUTinfoextraEvento,
       links: INPUTlinksEvento,
       selectOrgazinacao: selectOrgazinacao,
       unidade: getUnidadeInEmail()[0],
@@ -235,6 +241,9 @@ function Calendario({ unidades, loginGoogle, eventos }) {
 
     setINPUTmesEvento("");
     setINPUTnomeEvento("");
+    setINPUTlocalEvento("");
+    setINPUThorarioEvento("");
+    setINPUTinfoextraEvento("");
     setINPUTdiaEvento("");
     setModalAddEvento(!modalAddEvento);
   };
@@ -857,9 +866,24 @@ function Calendario({ unidades, loginGoogle, eventos }) {
 
             <div className="calendario--alterar__evento--content">
               <input
-                placeholder="Nome do evento..."
+                placeholder="Nome do evento ex: Formatura do seminário"
                 value={INPUTnomeEvento}
                 onChange={(e) => setINPUTnomeEvento(e.target.value)}
+              />
+              <input
+                placeholder="Local do evento ex: Sede da estaca"
+                value={INPUTlocalEvento}
+                onChange={(e) => setINPUTlocalEvento(e.target.value)}
+              />
+              <input
+                placeholder="Horário do evento ex: 15:00h"
+                value={INPUThorarioEvento}
+                onChange={(e) => setINPUThorarioEvento(e.target.value)}
+              />
+              <input
+                placeholder="Informação extra do evento (Opcional)"
+                value={INPUTinfoextraEvento}
+                onChange={(e) => setINPUTinfoextraEvento(e.target.value)}
               />
 
               <div
@@ -970,6 +994,8 @@ function Calendario({ unidades, loginGoogle, eventos }) {
             </div>
 
             {INPUTnomeEvento !== "" &&
+            INPUTlocalEvento !== "" &&
+            INPUThorarioEvento !== "" &&
             INPUTdiaEvento !== "" &&
             INPUTmesEvento !== "" &&
             selectOrgazinacao !== null ? (
