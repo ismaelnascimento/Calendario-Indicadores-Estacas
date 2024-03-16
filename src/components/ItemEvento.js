@@ -47,9 +47,11 @@ function ItemEvento(props) {
     setOrganizacoes(props.organizacoes);
     setINPUTmesEvento(props.evento.mes);
     setINPUTnomeEvento(props.evento.nome);
-    setINPUTlocalEvento(props.evento?.local);
-    setINPUThorarioEvento(props.evento?.horario);
-    setINPUTinfoextraEvento(props.evento?.infoextra);
+    setINPUTlocalEvento(props.evento?.local ? props.evento?.local : "");
+    setINPUThorarioEvento(props.evento?.horario ? props.evento?.horario : "");
+    setINPUTinfoextraEvento(
+      props.evento?.infoextra ? props.evento?.infoextra : ""
+    );
     setINPUTdiaEvento(props.evento.dia);
     setINPUTlinksEvento(props.evento?.links ? props.evento?.links : []);
     setSelectOrgazinacao(props.evento?.selectOrgazinacao);
