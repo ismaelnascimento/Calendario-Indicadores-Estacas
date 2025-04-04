@@ -85,3 +85,44 @@
     font-size: 18px;
   }
 }
+
+.calendario__mes--organizacoes {
+  display: flex;
+  gap: 0 10px;
+  /* overflow-y: hidden;
+  overflow-x: auto; */
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.calendario__mes--organizacoes > button {
+  border-radius: 12px;
+  padding: 6px 12px;
+  font-weight: 600;
+  margin-top: 10px;
+  white-space: nowrap;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  -webkit-border-radius: 12px;
+  display: flex;
+  align-items: center;
+  -moz-border-radius: 12px;
+  -ms-border-radius: 12px;
+  -o-border-radius: 12px;
+}
+
+.calendario__mes--organizacoes > button > svg {
+  position: relative;
+  left: -5px;
+  color: #fff;
+}
+
+.calendario__mes--organizacoes > p {
+  font-weight: 600;
+  font-size: 13px;
+  position: relative;
+  top: 5px;
+  color: rgb(93, 93, 99);
+}

@@ -4,13 +4,13 @@ import "firebase/compat/firestore";
 import "firebase/compat/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCkIRtsrx6cU0mseszV7boHbeUhjpxwwA4",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "calendarioestacapacajus.firebaseapp.com",
   projectId: "calendarioestacapacajus",
   storageBucket: "calendarioestacapacajus.appspot.com",
-  messagingSenderId: "79377217706",
-  appId: "1:79377217706:web:aa9332dbfe68b34c7838d3",
-  measurementId: "G-DZR5N43CQD",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 
 // Initialize Firebase

@@ -32,6 +32,7 @@ function App() {
     db.collection("calendario")
       .doc("anual")
       .collection("eventos")
+      .orderBy("dia", "asc")
       .onSnapshot((snapshot) => {
         setEventosget(
           snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
@@ -46,6 +47,7 @@ function App() {
       if (authUser) {
         dispatch({
           type: actionTypes.SET_USER,
+          // user: authUser,
           user: authUser,
         });
       } else {

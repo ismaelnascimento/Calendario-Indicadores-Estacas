@@ -20,7 +20,7 @@ function CalendarioApp({ loginGoogle, getEstaca, unidades, eventos }) {
       } else {
         setNotUnidades(true);
       }
-    }, [2000]);
+    }, [2400]);
   }, [getUnidades()]);
 
   const getEventos = () => {

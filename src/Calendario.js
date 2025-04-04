@@ -8,7 +8,7 @@ import { VscAdd } from "react-icons/vsc";
 import { BiLogOut } from "react-icons/bi";
 import { HiOutlineUser } from "react-icons/hi";
 import { useStateValue } from "./providers/StateProvider";
-import { actionTypes } from "./providers/reducer";
+import { actionTypes, organizations } from "./providers/reducer";
 import { BsCheck2, BsTrash } from "react-icons/bs";
 import { TiArrowSortedDown } from "react-icons/ti";
 import Footer from "./components/footer";
@@ -67,84 +67,11 @@ function Calendario({ unidades, loginGoogle, eventos }) {
   const [modalUpdateEstaca, setModalUpdateEstaca] = useState(false);
   const [modalAddEvento, setModalAddEvento] = useState(false);
   const [selectOrgazinacao, setSelectOrgazinacao] = useState(null);
-  const [organizacoes, setOrganizacoes] = useState([
-    {
-      color: "#000167",
-      organizacao: "Atividades mundiais",
-    },
-    {
-      color: "#42FF4F",
-      organizacao: "Atividades do templo e história da família",
-    },
-    {
-      color: "#48EB8B",
-      organizacao: "Atividades da Área Brasil",
-    },
-    {
-      color: "#FF895F",
-      organizacao: "Atividades da Presidência da Estaca.",
-    },
-    {
-      color: "#3F45EB",
-      organizacao: "Sociedade de socorro",
-    },
-    {
-      color: "#EBCA49",
-      organizacao: "Primária",
-    },
-    {
-      color: "#E8237D",
-      organizacao: "Moças",
-    },
-    {
-      color: "#EB5757",
-      organizacao: "Rapazes e Moças",
-    },
-    {
-      color: "#348feb",
-      organizacao: "Rapazes",
-    },
-    {
-      color: "#f7a41e",
-      organizacao: "Instituto",
-    },
-    {
-      color: "#4955e3",
-      organizacao: "Seminário",
-    },
-    {
-      color: "#b2e349",
-      organizacao: "JAS",
-    },
-    {
-      color: "#db3fe0",
-      organizacao: "MAS",
-    },
-    {
-      color: "#2f5c9c",
-      organizacao: "Bispado",
-    },
-    {
-      color: "#9c2f61",
-      organizacao: "Conselhos",
-    },
-    {
-      color: "#fc6a21",
-      organizacao: "Quórum de Elderes",
-    },
-    {
-      color: "#ffd429",
-      organizacao: "Obra Missionária",
-    },
-    {
-      color: "#74d624",
-      organizacao: "Serviços Familiares",
-    },
-    {
-      color: "#53EBFF",
-      organizacao: "Escola Dominical",
-    },
-  ]);
+  const [organizacoes, setOrganizacoes] = useState([]);
+
+  useEffect(() => {
+    setOrganizacoes(organizations);
+  }, []);
   const [modalSelect, setModalSelect] = useState(false);
   //
   const [INPUTnomeEvento, setINPUTnomeEvento] = useState("");
@@ -205,7 +132,9 @@ function Calendario({ unidades, loginGoogle, eventos }) {
   };
 
   const isAdmin = () => {
-    if (user?.email === "estacapacajussiao@gmail.com") {
+    if (
+      user?.email === "estacapacajussiao@gmail.com"
+    ) {
       return true;
     } else if (user?.email === selectUnidade?.email) {
       var filter = unidades?.filter((uni) => {
@@ -452,14 +381,14 @@ function Calendario({ unidades, loginGoogle, eventos }) {
             <p>{selectUnidade?.nome !== null ? selectUnidade?.nome : ""}</p>
           </div>
 
-          <a
+          {/* <a
             style={{ marginTop: 15, marginBottom: -5 }}
             onClick={() =>
               (window.location.href = `/${getUnidadeEstaca()?.estacaUID}/metas`)
             }
           >
             Indicadores de Progresso
-          </a>
+          </a> */}
           <a
             style={{ marginTop: 15, marginBottom: -5 }}
             onClick={() =>
